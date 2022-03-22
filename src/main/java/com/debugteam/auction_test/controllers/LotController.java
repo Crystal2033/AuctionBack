@@ -9,18 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/lot")
+@RequestMapping("/api/lots")
 public class LotController {
 
-    @GetMapping
-    public List<LotResponse> getLots()
-    {
-        return new ArrayList<>();
-    }
-
-    @GetMapping("/search")
-    public List<LotResponse> getSearchLots()
-    {
+    @GetMapping("")
+    public List<LotResponse> getSearchLots(@RequestParam("name") String name) {
         return new ArrayList<>();
     }
 
@@ -30,15 +23,13 @@ public class LotController {
         return new LotResponse();
     }
 
-    @PatchMapping
-    public int addBetOnLot(BetRequest new_bet)
-    {
-        return 0;
-    }
+//    @PatchMapping
+//    public int addBetOnLot(BetRequest new_bet) { // в контроллере ставок
+//        return 0;
+//    }
 
     @DeleteMapping("/{id}")
-    public int deleteLot(@PathVariable int id)
-    {
+    public int deleteLot(@PathVariable int id) {
         return 0;
     }
 
