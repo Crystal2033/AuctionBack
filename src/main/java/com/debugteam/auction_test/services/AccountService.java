@@ -10,7 +10,7 @@ import java.util.List;
 
     public interface AccountService {
 
-        AccountDto saveUser(AccountRequest studentRequest) throws AccountExistsException;
+        void addMoney(String userId) throws AccountNotExistsException;
 
         List<LotDto> getUserLots(String userId) throws AccountExistsException;
 

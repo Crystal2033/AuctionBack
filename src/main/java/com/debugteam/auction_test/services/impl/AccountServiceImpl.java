@@ -4,9 +4,13 @@ import com.debugteam.auction_test.exceptions.AccountExistsException;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.models.AccountDto;
 import com.debugteam.auction_test.models.AccountRequest;
+import com.debugteam.auction_test.models.LotDto;
 import com.debugteam.auction_test.services.AccountService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -16,8 +20,21 @@ public class AccountServiceImpl implements AccountService {
     {
         this.mapper = mapper;
     }
+
     @Override
-    public AccountDto saveUser(AccountRequest studentRequest) throws AccountExistsException
+    public void addMoney(String userId) throws AccountNotExistsException
+    {
+
+    }
+    @Override
+    public List<LotDto> getUserLots(String userId) throws AccountExistsException
+    {
+        return new ArrayList<LotDto>();
+
+    }
+
+    @Override
+    public AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException
     {
         return new AccountDto();
     }

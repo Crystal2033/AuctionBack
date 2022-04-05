@@ -46,14 +46,14 @@ public class AccountController {
     }
 
     @GetMapping("/lots")
-    public List<LotDto> getUserLots(String userId) { // добавить аргументы #TODO: Спросить, что передавать в аргументы.
+    public List<LotDto> getUserLots(String userId) throws AccountExistsException{ // добавить аргументы #TODO: Спросить, что передавать в аргументы.
 
-        return new ArrayList<LotDto>();
+        return accountService.getUserLots(userId);
     }
 
     @PostMapping("/money")
-    public String addMoney() // добавить аргументы
+    public void addMoney(String userId) throws AccountNotExistsException// добавить аргументы // token
     {
-        return "1234";
+        accountService.addMoney(userId);
     }
 }
