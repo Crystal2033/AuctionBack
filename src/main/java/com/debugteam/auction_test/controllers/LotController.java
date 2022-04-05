@@ -1,8 +1,6 @@
 package com.debugteam.auction_test.controllers;
 
 
-import com.debugteam.auction_test.models.BetRequest;
-import com.debugteam.auction_test.models.LotResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
