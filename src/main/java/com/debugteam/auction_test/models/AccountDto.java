@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AccountDto {
+    private String id; //from db
     private String nickname;
     private int money;
-    private int key; // TODO: подумать о типе данных // our database ID
 }

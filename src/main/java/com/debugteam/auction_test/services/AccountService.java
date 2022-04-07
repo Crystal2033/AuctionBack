@@ -10,13 +10,13 @@ import java.util.List;
 
     public interface AccountService {
 
-        void addMoney(String userId) throws AccountNotExistsException;
+        AccountDto addMoney(AccountRequest accountRequest) throws AccountNotExistsException; // Не нужно передавать String id?
 
-        List<LotDto> getUserLots(String userId) throws AccountExistsException;
+        List<LotDto> getUserLots(String userId) throws AccountExistsException; // Не нужно передавать String id?
 
         AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException;
 
-        AccountDto getUser(String studentId) throws AccountNotExistsException;
+        AccountDto getUser(String studentId) throws AccountNotExistsException; // Не нужно передавать String id?
 
         void changeUser(AccountRequest studentRequest) throws AccountNotExistsException; //boolean
 

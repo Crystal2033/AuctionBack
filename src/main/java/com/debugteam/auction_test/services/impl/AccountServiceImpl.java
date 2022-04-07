@@ -1,5 +1,7 @@
 package com.debugteam.auction_test.services.impl;
 
+import com.debugteam.auction_test.database.entities.AccountEntity;
+import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.exceptions.AccountExistsException;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.models.AccountDto;
@@ -15,38 +17,56 @@ import java.util.List;
 @Service
 public class AccountServiceImpl implements AccountService {
     private final ModelMapper mapper;
+    private final AccountRepository accountRepository;
 
-    public AccountServiceImpl(ModelMapper mapper)
+    public AccountServiceImpl(ModelMapper mapper, AccountRepository accountRepository) //DI работает.
     {
         this.mapper = mapper;
+        this.accountRepository = accountRepository;
     }
 
     @Override
-    public void addMoney(String userId) throws AccountNotExistsException
+    public AccountDto addMoney(AccountRequest accountRequest) throws AccountNotExistsException //Текущему юзеру ничего не нужно?
     {
+        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
+            throw new AccountNotExistsException();
+        }
 
+        AccountEntity account = accountRepository.getById(accountRequest.getId());
+        account.setMoney(accountRequest.getMoney());
+        accountRepository.save(account);
+        return mapper.map(account, AccountDto.class);
     }
     @Override
-    public List<LotDto> getUserLots(String userId) throws AccountExistsException
+    public List<LotDto> getUserLots(String accountId) throws AccountExistsException
     {
+        //pass
         return new ArrayList<LotDto>();
-
     }
 
     @Override
-    public AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException
+    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException
     {
+//        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
+//            throw new AccountExistsException();
+//        }
+//
+//        AccountEntity newAccount = mapper.map(accountRequest, AccountEntity.class);
+//        accountRepository.save(newAccount);
+//
+//        return mapper.map(newAccount, AccountDto.class);
         return new AccountDto();
     }
 
     @Override
-    public AccountDto getUser(String studentId) throws AccountNotExistsException
+    public AccountDto getUser(String accountId) throws AccountNotExistsException
     {
+
         return new AccountDto();
     }
 
     @Override
-    public void changeUser(AccountRequest studentRequest) throws AccountNotExistsException //boolean
+    public void changeUser(AccountRequest accountRequest) throws AccountNotExistsException //boolean
     {
 
     }

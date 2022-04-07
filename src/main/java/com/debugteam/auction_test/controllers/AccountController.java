@@ -8,7 +8,6 @@ import com.debugteam.auction_test.models.LotDto;
 import com.debugteam.auction_test.services.AccountService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,6 +20,7 @@ public class AccountController {
         this.accountService = accountService;
     }
 
+
     @GetMapping("")
     public AccountDto getUser(String stringId) throws AccountNotExistsException { // добавить аргументы
 
@@ -32,6 +32,12 @@ public class AccountController {
     public void changeUser(@RequestBody AccountRequest accountRequest) throws AccountNotExistsException
     {
         accountService.changeUser(accountRequest);
+    }
+
+    @PutMapping("")
+    public String testPostman()
+    {
+        return "12312441";
     }
 
     @PostMapping("")
@@ -52,8 +58,8 @@ public class AccountController {
     }
 
     @PostMapping("/money")
-    public void addMoney(String userId) throws AccountNotExistsException// добавить аргументы // token
+    public void addMoney(@RequestBody AccountRequest accountRequest) throws AccountNotExistsException// добавить аргументы // token
     {
-        accountService.addMoney(userId);
+        accountService.addMoney(accountRequest);
     }
 }

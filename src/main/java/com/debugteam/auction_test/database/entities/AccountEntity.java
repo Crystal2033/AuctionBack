@@ -19,26 +19,32 @@ public class AccountEntity {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid") // генерация id
     @Column(length = 32, updatable = false, nullable = false)
-    private String id;
+    private String id; // primary key in data base
 
     @CreationTimestamp
-    @Column(columnDefinition = "TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP") // генерация даты
     private LocalDateTime addDate;
 
-    @Generated(GenerationTime.INSERT)
+    @Generated(GenerationTime.INSERT) // Серийник для человека.
     private Integer serial;
 
     private String nickname;
     private Integer money;
 
+    ///////////////////////////////////////////////////////////////////////////
+    //                          equals + hash
+    ///////////////////////////////////////////////////////////////////////////
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountEntity that = (AccountEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(addDate, that.addDate) && Objects.equals(serial, that.serial) && Objects.equals(nickname, that.nickname) && Objects.equals(money, that.money);
+        return Objects.equals(id, that.id) && Objects.equals(addDate, that.addDate) &&
+               Objects.equals(serial, that.serial) &&
+               Objects.equals(nickname, that.nickname) &&
+               Objects.equals(money, that.money);
     }
 
     @Override
