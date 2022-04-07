@@ -1,4 +1,4 @@
-package com.debugteam.auction_test.components;
+package com.debugteam.auction_test.services.components;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

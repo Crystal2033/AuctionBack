@@ -36,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
         account.setMoney(accountRequest.getMoney());
         accountRepository.save(account);
         return mapper.map(account, AccountDto.class);
+        //return new AccountDto();
     }
     @Override
     public List<LotDto> getUserLots(String accountId) throws AccountExistsException
@@ -47,15 +48,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException
     {
-//        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
-//            throw new AccountExistsException();
-//        }
-//
-//        AccountEntity newAccount = mapper.map(accountRequest, AccountEntity.class);
-//        accountRepository.save(newAccount);
-//
-//        return mapper.map(newAccount, AccountDto.class);
-        return new AccountDto();
+        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
+            throw new AccountExistsException();
+        }
+
+        AccountEntity newAccount = mapper.map(accountRequest, AccountEntity.class);
+        accountRepository.save(newAccount);
+
+        return mapper.map(newAccount, AccountDto.class);
+        //return new AccountDto();
     }
 
     @Override

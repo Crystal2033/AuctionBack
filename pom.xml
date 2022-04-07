@@ -40,8 +40,8 @@
             <scope>compile</scope>
         </dependency>
 
-
         <!--        database        -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -51,12 +51,14 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-        <!--        mapping          -->
+        <!--        mapping         -->
+
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>2.3.5</version>
         </dependency>
+
 
     </dependencies>
 
