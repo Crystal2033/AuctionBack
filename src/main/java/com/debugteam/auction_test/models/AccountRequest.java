@@ -1,15 +1,20 @@
 package com.debugteam.auction_test.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 @Data
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountRequest {
-    @JsonProperty("nickname")
+    private String id;
+    //@JsonProperty("nickname")
     private String nickname;
 
-    @JsonProperty("password")
+    //@JsonProperty("password")
     private String password;
-    private int money;
-    private int key; // TODO: подумать о типе данных
+    private Integer money;
 }

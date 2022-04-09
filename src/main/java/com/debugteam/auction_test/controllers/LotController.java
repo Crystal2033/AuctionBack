@@ -1,8 +1,7 @@
 package com.debugteam.auction_test.controllers;
 
 
-import com.debugteam.auction_test.models.BetRequest;
-import com.debugteam.auction_test.models.LotResponse;
+import com.debugteam.auction_test.models.LotDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,14 +12,14 @@ import java.util.List;
 public class LotController {
 
     @GetMapping("")
-    public List<LotResponse> getSearchLots(@RequestParam("name") String name) {
+    public List<LotDto> getSearchLots(@RequestParam("name") String name) {
         return new ArrayList<>();
     }
 
 
     @PostMapping
-    public LotResponse addLot() {
-        return new LotResponse();
+    public LotDto addLot() {
+        return new LotDto();
     }
 
 //    @PatchMapping

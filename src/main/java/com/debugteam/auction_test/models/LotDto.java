@@ -2,7 +2,7 @@ package com.debugteam.auction_test.models;
 
 import java.time.LocalDateTime;
 
-public class LotResponse {
+public class LotDto {
     int currentBid; // == bets[0];
     LocalDateTime start_time;
     User owner;
@@ -10,5 +10,4 @@ public class LotResponse {
     int lastBid;
 
     Product product;
-
 }
