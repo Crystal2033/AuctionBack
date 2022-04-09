@@ -5,7 +5,7 @@ public class Bet {
 //    {
 //
 //    }
-    private User owner;
+    //private User owner;
     //private Lot lot; //i don`t have Lot class
     private Integer id;
     private Integer betSize;

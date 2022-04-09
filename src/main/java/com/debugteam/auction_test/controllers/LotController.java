@@ -2,6 +2,8 @@ package com.debugteam.auction_test.controllers;
 
 
 import com.debugteam.auction_test.models.LotDto;
+import com.debugteam.auction_test.models.LotRequest;
+import com.debugteam.auction_test.services.LotServices;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,6 +13,13 @@ import java.util.List;
 @RequestMapping("/api/lots")
 public class LotController {
 
+    private final LotServices lotServices;
+
+    public LotController(LotServices lotServices) {
+        this.lotServices = lotServices;
+    }
+
+
     @GetMapping("")
     public List<LotDto> getSearchLots(@RequestParam("name") String name) {
         return new ArrayList<>();
@@ -18,8 +27,8 @@ public class LotController {
 
 
     @PostMapping
-    public LotDto addLot() {
-        return new LotDto();
+    public LotDto addLot(@RequestBody LotRequest lotRequest) {
+        return lotServices.addLot(lotRequest);
     }
 
 //    @PatchMapping
@@ -28,8 +37,7 @@ public class LotController {
 //    }
 
     @DeleteMapping("/{id}")
-    public int deleteLot(@PathVariable int id) {
-        return 0;
+    public void deleteLot(@PathVariable int id) {
     }
 
 }

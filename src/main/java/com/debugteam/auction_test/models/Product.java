@@ -6,7 +6,7 @@ public class Product {
 
     }
     private String productName;
-    private User owner;
+    //private User owner;
     //private Photo photo;
     private Integer id;
 }

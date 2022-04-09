@@ -11,8 +11,10 @@ import com.debugteam.auction_test.services.AccountService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -28,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto addMoney(AccountRequest accountRequest) throws AccountNotExistsException //Текущему юзеру ничего не нужно?
     {
-        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
+        if (accountRequest.getId() == null || !accountRepository.existsById(accountRequest.getId())) {
             throw new AccountNotExistsException();
         }
 
@@ -41,14 +43,14 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<LotDto> getUserLots(String accountId) throws AccountExistsException
     {
-        //pass
+        //TODO: Make
         return new ArrayList<LotDto>();
     }
 
     @Override
     public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException
     {
-        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
+        if (accountRequest.getId() == null || !accountRepository.existsById(accountRequest.getId())) {
             throw new AccountExistsException();
         }
 
@@ -56,25 +58,36 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(newAccount);
 
         return mapper.map(newAccount, AccountDto.class);
-        //return new AccountDto();
     }
 
     @Override
     public AccountDto getUser(String accountId) throws AccountNotExistsException
     {
+        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
 
-        return new AccountDto();
+        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
+        return mapper.map(user, AccountDto.class);
     }
 
     @Override
     public void changeUser(AccountRequest accountRequest) throws AccountNotExistsException //boolean
     {
+        if (accountRequest.getId() == null || !accountRepository.existsById(accountRequest.getId())) {
+            throw new AccountNotExistsException();
+        }
 
+        AccountEntity user = accountRepository.getById(accountRequest.getId());
+        user.setId(accountRequest.getId());
+        user.setNickname(accountRequest.getNickname());
+        user.setMoney(accountRequest.getMoney());
+        accountRepository.save(user);
     }
 
     @Override
-    public void deleteUser(String studentId) throws AccountNotExistsException //boolean
+    public void deleteUser(String accountId) throws AccountNotExistsException //boolean
     {
-
+        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
+        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
+        accountRepository.delete(user);
     }
 }
