@@ -7,10 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 ///////////////////////////////////////////////////////////////////////////////
-// JpaRepository <с чем взаимодействует -- AccountEntity, ти ключа -- String> /
+// JpaRepository <с чем взаимодействует -- AccountEntity, тип ключа -- String> /
 ///////////////////////////////////////////////////////////////////////////////
 @Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, String> {
-    //Optional<AccountEntity> findOptionalById(String id);
+    Optional<AccountEntity> findOptionalById(String id);
+    Optional<AccountEntity> findOptionalByEmail(String email);
     boolean existsById(String id);
 }

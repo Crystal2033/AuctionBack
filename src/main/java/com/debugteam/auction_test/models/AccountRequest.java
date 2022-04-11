@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountRequest {
-    private String id;
+    private String id; // Для фронта
     //@JsonProperty("nickname")
     private String nickname;
 

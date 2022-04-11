@@ -1,6 +1,5 @@
 package com.debugteam.auction_test.database.entities;
 
-import com.debugteam.auction_test.models.Lot;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,15 +9,13 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "account")
-public class AccountEntity {
+@Table(name="lot")
+public class LotEntity {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -33,17 +30,8 @@ public class AccountEntity {
     @Generated(GenerationTime.INSERT) // Серийник для человека.
     private Integer serial;
 
-    private String nickname;
-    private Integer money;
+    //private Product product;
 
-    private String email;
-    private String password;
-
-
-    @OneToMany
-    @Column
-    @JoinColumn(name = "user_id")
-    private List<LotEntity> userLots;
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -53,15 +41,12 @@ public class AccountEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountEntity that = (AccountEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(addDate, that.addDate) &&
-               Objects.equals(serial, that.serial) &&
-               Objects.equals(nickname, that.nickname) &&
-               Objects.equals(money, that.money);
+        LotEntity lotEntity = (LotEntity) o;
+        return Objects.equals(id, lotEntity.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, addDate, serial, nickname, money);
+        return Objects.hash(id);
     }
 }
