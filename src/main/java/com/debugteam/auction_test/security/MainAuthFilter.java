@@ -17,9 +17,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class MainAuthFilter implements Filter {
@@ -32,9 +30,9 @@ public class MainAuthFilter implements Filter {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private RequestMatcher requireAuthMatcher;
+    private List<RequestMatcher> requireAuthMatcher;
 
-    public MainAuthFilter setRequireAuthMatcher(RequestMatcher requireAuthMatcher) {
+    public MainAuthFilter setRequireAuthMatcher(List<RequestMatcher> requireAuthMatcher) {
         this.requireAuthMatcher = requireAuthMatcher;
         return this;
     }
@@ -95,6 +93,15 @@ public class MainAuthFilter implements Filter {
     ///////////////////////////////////////////////////////////////////////////
 
     private boolean requireAuth(HttpServletRequest req) {
-        return requireAuthMatcher == null || requireAuthMatcher.matches(req);
+        Iterator<RequestMatcher> iter = requireAuthMatcher.iterator();
+        RequestMatcher tmp;
+        while(iter.hasNext()){
+            tmp = iter.next();
+            if (tmp != null && tmp.matches(req)){
+                return true;
+            }
+        }
+        return false;
+        //return requireAuthMatcher == null || requireAuthMatcher.matches(req);
     }
 }

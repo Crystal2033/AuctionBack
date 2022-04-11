@@ -36,6 +36,11 @@ public class LotController {
 //        return 0;
 //    }
 
+    @PutMapping
+    public String addBetOnLot() { // в контроллере ставок
+        return "Success";
+    }
+
     @DeleteMapping("/{id}")
     public void deleteLot(@PathVariable int id) {
     }
