@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BetRequest {
+public class BetDto {
 
     private String betId;
     private String userNickname;

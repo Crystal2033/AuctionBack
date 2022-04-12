@@ -1,17 +1,20 @@
 package com.debugteam.auction_test.services.impl;
 
 import com.debugteam.auction_test.database.entities.AccountEntity;
+import com.debugteam.auction_test.database.entities.LotEntity;
+import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
+import com.debugteam.auction_test.database.repositories.LotRepository;
 import com.debugteam.auction_test.exceptions.AccountExistsException;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.models.AccountDto;
 import com.debugteam.auction_test.models.AccountRequest;
 import com.debugteam.auction_test.models.LotDto;
+import com.debugteam.auction_test.models.ProductDto;
 import com.debugteam.auction_test.services.AccountService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +23,13 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
     private final ModelMapper mapper;
     private final AccountRepository accountRepository;
+    private  final LotRepository lotRepository;
 
-    public AccountServiceImpl(ModelMapper mapper, AccountRepository accountRepository) //DI работает.
+    public AccountServiceImpl(ModelMapper mapper, AccountRepository accountRepository, LotRepository lotRepository) //DI работает.
     {
         this.mapper = mapper;
         this.accountRepository = accountRepository;
+        this.lotRepository = lotRepository;
     }
 
     @Override
@@ -38,27 +43,35 @@ public class AccountServiceImpl implements AccountService {
         account.setMoney(accountRequest.getMoney());
         accountRepository.save(account);
         return mapper.map(account, AccountDto.class);
-        //return new AccountDto();
     }
     @Override
-    public List<LotDto> getUserLots(String accountId) throws AccountExistsException
-    {
-        //TODO: Make
-        return new ArrayList<LotDto>();
-    }
+    public List<LotDto> getUserLots(String accountId) throws AccountNotExistsException {
+        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
+        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
+        List<LotEntity> lotEntities = user.getUserLots();
+        List<LotDto> lotsDto = new ArrayList<>();
 
-    @Override
-    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException
-    {
-        if (accountRequest.getId() == null || !accountRepository.existsById(accountRequest.getId())) {
-            throw new AccountExistsException();
+        for (LotEntity lot : lotEntities) {
+            lotsDto.add(mapper.map(lot, LotDto.class));
         }
-
-        AccountEntity newAccount = mapper.map(accountRequest, AccountEntity.class);
-        accountRepository.save(newAccount);
-
-        return mapper.map(newAccount, AccountDto.class);
+        return lotsDto;
     }
+
+//    @Override
+//    public List<ProductDto> getUserProducts(String accountId) throws AccountNotExistsException
+//    {
+//        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
+//        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
+//
+//        List<ProductEntity> productsEntity = user.getUserProducts();
+//
+//        List<ProductDto> productDto = new ArrayList<>();
+//        for (ProductEntity product : productsEntity) {
+//            productDto.add(mapper.map(product, ProductDto.class));
+//        }
+//        return productDto;
+//    }
+
 
     @Override
     public AccountDto getUser(String accountId) throws AccountNotExistsException

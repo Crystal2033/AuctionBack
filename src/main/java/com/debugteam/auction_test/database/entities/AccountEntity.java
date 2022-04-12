@@ -1,6 +1,5 @@
 package com.debugteam.auction_test.database.entities;
 
-import com.debugteam.auction_test.models.Lot;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,7 +9,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,12 +37,8 @@ public class AccountEntity {
     private String email;
     private String password;
 
-
-    @OneToMany
-    @Column
-    @JoinColumn(name = "user_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<LotEntity> userLots;
-
 
     ///////////////////////////////////////////////////////////////////////////
     //                          equals + hash

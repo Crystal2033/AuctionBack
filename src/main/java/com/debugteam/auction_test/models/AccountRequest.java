@@ -14,6 +14,8 @@ public class AccountRequest {
     //@JsonProperty("nickname")
     private String nickname;
 
+    private String email;
+
     //@JsonProperty("password")
     private String password;
     private Integer money;

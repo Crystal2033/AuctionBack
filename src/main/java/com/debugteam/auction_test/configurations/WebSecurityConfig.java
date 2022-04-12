@@ -19,8 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final MainAuthFilter mainAuthFilter;
     private final List<RequestMatcher> privateZones;
 
-    public WebSecurityConfig(MainAuthFilter mainAuthFilter, List<RequestMatcher> privateZones)
-    {
+    public WebSecurityConfig(MainAuthFilter mainAuthFilter, List<RequestMatcher> privateZones) {
         this.mainAuthFilter = mainAuthFilter;
         this.privateZones = privateZones;
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/accounts/**")));
