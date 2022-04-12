@@ -1,13 +1,20 @@
 package com.debugteam.auction_test.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class LotDto {
-    int currentBid; // == bets[0];
-    LocalDateTime start_time;
-    //User owner;
-    int bidStep;
-    int lastBid;
+    String name;
+    int startPrice;
+    LocalDateTime addDate;
 
-    Product product;
+    //int currentBid; // == bets[0];
+    //User owner; ????
+    //int bidStep;
+    //int lastBid;
+    //Product product;
 }

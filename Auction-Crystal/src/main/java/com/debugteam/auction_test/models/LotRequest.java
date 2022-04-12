@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class LotRequest {
-    String user_id;
     String name;
     int startPrice;
-
     //LocalDateTime timeExistence;
 }

@@ -4,7 +4,8 @@ package com.debugteam.auction_test.controllers;
 import com.debugteam.auction_test.exceptions.LotExistsException;
 import com.debugteam.auction_test.models.LotDto;
 import com.debugteam.auction_test.models.LotRequest;
-import com.debugteam.auction_test.services.LotServices;
+import com.debugteam.auction_test.security.models.OurAuthToken;
+import com.debugteam.auction_test.services.LotService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,9 +15,9 @@ import java.util.List;
 @RequestMapping("/api/lots")
 public class LotController {
 
-    private final LotServices lotServices;
+    private final LotService lotServices;
 
-    public LotController(LotServices lotServices) {
+    public LotController(LotService lotServices) {
         this.lotServices = lotServices;
     }
 
@@ -28,9 +29,8 @@ public class LotController {
 
 
     @PostMapping
-    public LotDto addLot(@RequestBody LotRequest lotRequest) throws LotExistsException {
-
-        return lotServices.addLot(lotRequest);
+    public LotDto addLot(@RequestBody LotRequest lotRequest, OurAuthToken ourAuthToken) throws LotExistsException {
+        return lotServices.addLot(lotRequest, ourAuthToken.getPrincipal().getId());
     }
 
 //    @PatchMapping

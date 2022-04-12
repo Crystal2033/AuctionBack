@@ -5,9 +5,9 @@ import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.models.AccountDto;
 import com.debugteam.auction_test.models.AccountRequest;
 import com.debugteam.auction_test.models.LotDto;
+import com.debugteam.auction_test.models.ProductDto;
 import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.AccountService;
-import com.debugteam.auction_test.services.LotServices;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,8 +55,13 @@ public class AccountController {
     }
 
     @GetMapping("/lots")
-    public List<LotDto> getUserLots(@RequestParam String userId) throws AccountExistsException { // добавить аргументы #TODO: Спросить, что передавать в аргументы.
-        return accountService.getUserLots(userId);
+    public List<LotDto> getUserLots(OurAuthToken ourAuthToken) throws AccountNotExistsException { // добавить аргументы #TODO: Спросить, что передавать в аргументы.
+        return accountService.getUserLots(ourAuthToken.getPrincipal().getId());
+    }
+
+    @GetMapping("/products")
+    public List<ProductDto> getUserProducts(OurAuthToken ourAuthToken) throws AccountNotExistsException { // добавить аргументы #TODO: Спросить, что передавать в аргументы.
+        return accountService.getUserProducts(ourAuthToken.getPrincipal().getId());
     }
 
     @PostMapping("/money")

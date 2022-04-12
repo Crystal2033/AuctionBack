@@ -2,6 +2,7 @@ package com.debugteam.auction_test.services.impl;
 
 import com.debugteam.auction_test.database.entities.AccountEntity;
 import com.debugteam.auction_test.database.entities.LotEntity;
+import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.LotRepository;
 import com.debugteam.auction_test.exceptions.AccountExistsException;
@@ -9,6 +10,7 @@ import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.models.AccountDto;
 import com.debugteam.auction_test.models.AccountRequest;
 import com.debugteam.auction_test.models.LotDto;
+import com.debugteam.auction_test.models.ProductDto;
 import com.debugteam.auction_test.services.AccountService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -41,21 +43,35 @@ public class AccountServiceImpl implements AccountService {
         account.setMoney(accountRequest.getMoney());
         accountRepository.save(account);
         return mapper.map(account, AccountDto.class);
-        //return new AccountDto();
     }
     @Override
-    public List<LotDto> getUserLots(String accountId) throws AccountExistsException
+    public List<LotDto> getUserLots(String accountId) throws AccountNotExistsException
     {
-        AccountEntity user = accountRepository.getById(accountId);
-        List<LotEntity> toConvert = user.getUserLots();
-        List<LotDto> toReturn = new ArrayList<>();
+        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
+        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
 
-        for (LotEntity lot : toConvert)
-        {
-            toReturn.add(mapper.map(lot, LotDto.class));
+        List<LotEntity> lotsEntity = user.getUserLots();
+
+        List<LotDto> lotsDto = new ArrayList<>();
+        for (LotEntity lot : lotsEntity) {
+            lotsDto.add(mapper.map(lot, LotDto.class));
         }
+        return lotsDto;
+    }
 
-        return toReturn;
+    @Override
+    public List<ProductDto> getUserProducts(String accountId) throws AccountNotExistsException
+    {
+        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
+        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
+
+        List<ProductEntity> productsEntity = user.getUserProducts();
+
+        List<ProductDto> productDto = new ArrayList<>();
+        for (ProductEntity product : productsEntity) {
+            productDto.add(mapper.map(product, ProductDto.class));
+        }
+        return productDto;
     }
 
     @Override
