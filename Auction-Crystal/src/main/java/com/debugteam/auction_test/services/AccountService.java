@@ -14,7 +14,7 @@ import java.util.List;
 
         List<LotDto> getUserLots(String userId) throws AccountNotExistsException; // Не нужно передавать String id?
 
-        AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException;
+        //AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException;
 
         AccountDto getUser(String studentId) throws AccountNotExistsException; // Не нужно передавать String id?
 
