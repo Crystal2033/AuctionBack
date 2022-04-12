@@ -20,7 +20,7 @@ public class ProductEntity {
     @Column(length = 32, updatable = false, nullable = false)
     private String id; // primary key in data base
 
-    private String name;
+    String name;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
