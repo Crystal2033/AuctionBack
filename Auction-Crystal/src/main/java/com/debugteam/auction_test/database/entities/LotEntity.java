@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -36,6 +37,9 @@ public class LotEntity {
 
     @Generated(GenerationTime.INSERT) // Серийник для человека.
     private Integer serial;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lot")
+    private List<ProductEntity> lotProducts;
 
     //private Product product;
 

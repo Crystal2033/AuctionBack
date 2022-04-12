@@ -26,6 +26,10 @@ public class ProductEntity {
     @JoinColumn(name = "user_id")
     private AccountEntity user;
 
+    @ManyToOne
+    @JoinColumn(name = "lot_id")
+    private LotEntity lot;
+
     @Generated(GenerationTime.INSERT) // Серийник для человека.
     private Integer serial;
 

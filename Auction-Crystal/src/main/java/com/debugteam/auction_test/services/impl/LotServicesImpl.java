@@ -2,6 +2,7 @@ package com.debugteam.auction_test.services.impl;
 
 import com.debugteam.auction_test.database.entities.AccountEntity;
 import com.debugteam.auction_test.database.entities.LotEntity;
+import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.LotRepository;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
@@ -45,6 +46,8 @@ public class LotServicesImpl implements LotService {
         return listLots;
     }
 
+
+    //Надо добавить productId, но у нас много продуктов, поэтому нужно передавать как-то лист продуктов.
     @Override
     public LotDto addLot(LotRequest lotRequest, String userId) throws LotExistsException, AccountNotExistsException {
         if (lotRequest.getLotId() == null || lotRepository.existsById(lotRequest.getLotId())){
@@ -54,8 +57,11 @@ public class LotServicesImpl implements LotService {
 
         Optional<AccountEntity> existedUser = accountRepository.findOptionalById(userId);
         AccountEntity userEntity = existedUser.orElseThrow(AccountNotExistsException::new);
-
+        //TODO: Проход в цикле по списку строк-id товаров из lotRequest.
+        //Здесь все то же самое, что у аккаунта и лота. То есть у нас здесь много лотов и один аккаунт. А нам нужно
+        //сделать много продуктов и один лот.
         lot.setUser(userEntity);
+
         lotRepository.save(lot);
 
         return mapper.map(lot, LotDto.class);
