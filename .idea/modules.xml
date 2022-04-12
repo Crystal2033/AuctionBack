@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Crystal.iml" filepath="$PROJECT_DIR$/.idea/Crystal.iml" />
       <module fileurl="file://$PROJECT_DIR$/Auction-Crystal/auction_test.iml" filepath="$PROJECT_DIR$/Auction-Crystal/auction_test.iml" />
     </modules>
   </component>

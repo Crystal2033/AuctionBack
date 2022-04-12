@@ -8,19 +8,29 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MainAuthFilter mainAuthFilter;
+    private final List<RequestMatcher> privateZones;
 
-    public WebSecurityConfig(MainAuthFilter mainAuthFilter) {
+    public WebSecurityConfig(MainAuthFilter mainAuthFilter, List<RequestMatcher> privateZones)
+    {
         this.mainAuthFilter = mainAuthFilter;
+        this.privateZones = privateZones;
+        this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/accounts/**")));
+        this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/lots/**")));
+
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+
 
         httpSecurity
                 .cors()
@@ -30,24 +40,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .disable()
                 .authorizeHttpRequests()
-                .antMatchers("/api/**").permitAll();
-
-//        httpSecurity
-//                .cors()
-//                .disable()
-//                .csrf()
-//                .disable()
-//                .sessionManagement()
-//                .disable()
-//                .authorizeHttpRequests()
-//                .antMatchers("/api/registration/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilterAfter(
-//                        mainAuthFilter.setRequireAuthMatcher(
-//                                new AndRequestMatcher(new AntPathRequestMatcher("/api/accounts/**"))
-//                        ),
-//                        UsernamePasswordAuthenticationFilter.class
-//                );
+                .antMatchers("/api/registration/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilterAfter(
+                        mainAuthFilter.setRequireAuthMatcher(this.privateZones),
+                        UsernamePasswordAuthenticationFilter.class
+                );
     }
 }
