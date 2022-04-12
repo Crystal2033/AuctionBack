@@ -5,14 +5,10 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BetResponse {
-//    public BetResponse()
-//    {
-//        userNickname = "Tom Response";
-//        lotId = 123;
-//        betSize = 2000;
-//    }
+public class BetDto {
+
+    private String betId;
     private String userNickname;
-    private Integer lotId;
+
     private Integer betSize;
 }

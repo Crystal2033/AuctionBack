@@ -2,7 +2,7 @@ package com.debugteam.auction_test.controllers;
 
 import com.debugteam.auction_test.exceptions.BetNotExistException;
 import com.debugteam.auction_test.models.BetRequest;
-import com.debugteam.auction_test.models.BetResponse;
+import com.debugteam.auction_test.models.BetDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,50 +15,54 @@ public class BetController {
     private HashMap<Integer, BetRequest> savedBets = new HashMap<>();
 
     @GetMapping("/{id}")
-    public BetResponse getBet(@PathVariable("id") Integer betId) throws BetNotExistException {
-        if (!savedBets.containsKey(betId)) {
-            throw new BetNotExistException();
-        }
-        BetResponse foundBet = convertToResponse(savedBets.get(betId));
-        return foundBet;
+    public BetDto getBet(@PathVariable("id") Integer betId) throws BetNotExistException {
+//        if (!savedBets.containsKey(betId)) {
+//            throw new BetNotExistException();
+//        }
+//        BetDto foundBet = convertToResponse(savedBets.get(betId));
+//        return foundBet;
+        return new BetDto();
     }
 
     @GetMapping("")
-    public ArrayList<BetResponse> getBets() {
-        ArrayList<BetResponse> result = new ArrayList<>();
-        for (Map.Entry<Integer, BetRequest> entry : savedBets.entrySet()) {
-            BetResponse betResp = convertToResponse(entry.getValue());
-            result.add(betResp);
-        }
-        return result;
+    public ArrayList<BetDto> getBets() {
+//        ArrayList<BetDto> result = new ArrayList<>();
+//        for (Map.Entry<Integer, BetRequest> entry : savedBets.entrySet()) {
+//            BetDto betResp = convertToResponse(entry.getValue());
+//            result.add(betResp);
+//        }
+//        return result;
+        return new ArrayList<>();
     }
 
     @PostMapping("")
     public Integer addBet(BetRequest newBet) {
-        Integer id = savedBets.size();
-        savedBets.put(id, newBet);
-        return id;
+//        Integer id = savedBets.size();
+//        savedBets.put(id, newBet);
+//        return id;
+        return 1234;
     }
 
     @DeleteMapping("/{id}")
     public Integer deleteBet(@PathVariable("id") Integer betId) throws BetNotExistException //but its strange. How did yoi get id of not existing bet.
     {
-        if (!savedBets.containsKey(betId)) {
-            throw new BetNotExistException();
-        }
-        savedBets.remove(betId);
-        return betId;
+//        if (!savedBets.containsKey(betId)) {
+//            throw new BetNotExistException();
+//        }
+//        savedBets.remove(betId);
+//        return betId;
+        return 123;
     }
 
     ///////////////////////////////////////////////////////////////////////////
     //                      private
     ///////////////////////////////////////////////////////////////////////////
-    private BetResponse convertToResponse(BetRequest betReq) {
-        BetResponse betResp = new BetResponse();
-        betResp.setBetSize(betReq.getBetSize());
-        betResp.setLotId(betReq.getLotId());
-        betResp.setUserNickname(betReq.getUserNickname());
-        return betResp;
-    }
+//    private BetDto convertToResponse(BetRequest betReq) {
+//        BetDto betResp = new BetDto();
+//        betResp.setBetSize(betReq.getBetSize());
+//        betResp.setLotId(betReq.getLotId());
+//        betResp.setUserNickname(betReq.getUserNickname());
+//        return betResp;
+//    }
 
 }

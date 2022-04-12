@@ -12,7 +12,7 @@ import java.util.List;
 
         AccountDto addMoney(AccountRequest accountRequest) throws AccountNotExistsException; // Не нужно передавать String id?
 
-        List<LotDto> getUserLots(String userId) throws AccountExistsException; // Не нужно передавать String id?
+        List<LotDto> getUserLots(String userId) throws AccountNotExistsException; // Не нужно передавать String id?
 
         AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException;
 

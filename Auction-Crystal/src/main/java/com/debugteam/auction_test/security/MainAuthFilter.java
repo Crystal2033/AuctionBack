@@ -77,7 +77,7 @@ public class MainAuthFilter implements Filter {
         }
         AccountEntity user = optionalUser.get();
 
-        if (!passwordEncoder.matches(password + "salt", user.getPassword())){
+        if (!passwordEncoder.matches(password + "salt", user.getPassword())) {
             return null;
         }
 
@@ -95,9 +95,9 @@ public class MainAuthFilter implements Filter {
     private boolean requireAuth(HttpServletRequest req) {
         Iterator<RequestMatcher> iter = requireAuthMatcher.iterator();
         RequestMatcher tmp;
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             tmp = iter.next();
-            if (tmp != null && tmp.matches(req)){
+            if (tmp != null && tmp.matches(req)) {
                 return true;
             }
         }

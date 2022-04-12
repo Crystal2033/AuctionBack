@@ -44,9 +44,9 @@ public class AccountServiceImpl implements AccountService {
         //return new AccountDto();
     }
     @Override
-    public List<LotDto> getUserLots(String accountId) throws AccountExistsException
-    {
-        AccountEntity user = accountRepository.getById(accountId);
+    public List<LotDto> getUserLots(String accountId) throws AccountNotExistsException {
+        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
+        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
         List<LotEntity> toConvert = user.getUserLots();
         List<LotDto> toReturn = new ArrayList<>();
 

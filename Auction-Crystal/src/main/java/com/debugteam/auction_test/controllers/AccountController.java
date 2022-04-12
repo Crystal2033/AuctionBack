@@ -7,7 +7,6 @@ import com.debugteam.auction_test.models.AccountRequest;
 import com.debugteam.auction_test.models.LotDto;
 import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.AccountService;
-import com.debugteam.auction_test.services.LotServices;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +22,10 @@ public class AccountController {
     }
 
     @GetMapping("")
-    public AccountDto getUser(@RequestParam(value = "stringId") String stringId) throws AccountNotExistsException { // добавить аргументы
+    public AccountDto getUser(OurAuthToken authToken) throws AccountNotExistsException { // добавить аргументы
         //Был обычный string, мы поставили @PathVariable("id") и запрос был  @GetMapping("")
         //return new AccountDto();
-        return accountService.getUser(stringId);
+        return accountService.getUser(authToken.getPrincipal().getId());
     }
 
     @PatchMapping("")
@@ -35,28 +34,15 @@ public class AccountController {
         accountService.changeUser(accountRequest);
     }
 
-    @PutMapping("")
-    public String testPostman()
+    @DeleteMapping("")
+    public void deleteUser(OurAuthToken ourAuthToken) throws AccountNotExistsException
     {
-        return "12312441";
-    }
-
-
-    // не нужен!
-    @PostMapping("")
-    public AccountDto addUser(@RequestBody AccountRequest accountRequest) throws AccountExistsException  { // добавить аргументы
-        return accountService.addUser(accountRequest);
-    }
-
-    @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable("id") String userId, OurAuthToken ourAuthToken) throws AccountNotExistsException
-    {
-        accountService.deleteUser(userId);
+        accountService.deleteUser(ourAuthToken.getPrincipal().getId());
     }
 
     @GetMapping("/lots")
-    public List<LotDto> getUserLots(@RequestParam String userId) throws AccountExistsException { // добавить аргументы #TODO: Спросить, что передавать в аргументы.
-        return accountService.getUserLots(userId);
+    public List<LotDto> getUserLots(OurAuthToken authToken) throws AccountNotExistsException { // добавить аргументы #TODO: Спросить, что передавать в аргументы.
+        return accountService.getUserLots(authToken.getPrincipal().getId());
     }
 
     @PostMapping("/money")
