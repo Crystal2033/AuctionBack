@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.privateZones = privateZones;
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/accounts/**")));
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/lots/**")));
-        this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/products/**")));
+
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.models.AccountDto;
 import com.debugteam.auction_test.models.AccountRequest;
 import com.debugteam.auction_test.models.LotDto;
-import com.debugteam.auction_test.models.ProductDto;
 
 import java.util.List;
 
@@ -15,13 +14,7 @@ import java.util.List;
 
         List<LotDto> getUserLots(String userId) throws AccountNotExistsException; // Не нужно передавать String id?
 
-        List<ProductDto> getUserProducts(String userId) throws AccountNotExistsException; // Не нужно передавать String id?
-
-        AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException;
-||||||| 681a25a
-        List<LotDto> getUserLots(String userId) throws AccountExistsException; // Не нужно передавать String id?
-
-        AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException;
+        //AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException;
 
         AccountDto getUser(String studentId) throws AccountNotExistsException; // Не нужно передавать String id?
 

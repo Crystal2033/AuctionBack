@@ -51,53 +51,27 @@ public class AccountServiceImpl implements AccountService {
         List<LotEntity> lotEntities = user.getUserLots();
         List<LotDto> lotsDto = new ArrayList<>();
 
-        List<LotDto> lotsDto = new ArrayList<>();
-        for (LotEntity lot : lotsEntity) {
+        for (LotEntity lot : lotEntities) {
             lotsDto.add(mapper.map(lot, LotDto.class));
         }
         return lotsDto;
     }
 
-    @Override
-    public List<ProductDto> getUserProducts(String accountId) throws AccountNotExistsException
-    {
-        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
-        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
-
-        List<ProductEntity> productsEntity = user.getUserProducts();
-
-        List<ProductDto> productDto = new ArrayList<>();
-        for (ProductEntity product : productsEntity) {
-            productDto.add(mapper.map(product, ProductDto.class));
-        }
-        return productDto;
-    }
-
 //    @Override
-//    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException // не надо
+//    public List<ProductDto> getUserProducts(String accountId) throws AccountNotExistsException
 //    {
-//        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
-//            throw new AccountExistsException();
-//||||||| 681a25a
-//        for (LotEntity lot : toConvert)
-//        {
-//            toReturn.add(mapper.map(lot, LotDto.class));
+//        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
+//        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
+//
+//        List<ProductEntity> productsEntity = user.getUserProducts();
+//
+//        List<ProductDto> productDto = new ArrayList<>();
+//        for (ProductEntity product : productsEntity) {
+//            productDto.add(mapper.map(product, ProductDto.class));
 //        }
-//
-//        AccountEntity newAccount = mapper.map(accountRequest, AccountEntity.class);
-//        accountRepository.save(newAccount);
-//        return toReturn;
+//        return productDto;
 //    }
-//
-//    @Override
-//    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException // не надо
-//    {
-//        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
-//            throw new AccountExistsException();
-//        }
-//
-//        return lotsDto;
-//    }
+
 
     @Override
     public AccountDto getUser(String accountId) throws AccountNotExistsException
