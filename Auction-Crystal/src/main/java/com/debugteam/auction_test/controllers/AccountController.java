@@ -23,10 +23,10 @@ public class AccountController {
     }
 
     @GetMapping("")
-    public AccountDto getUser(@RequestParam(value = "stringId") String stringId) throws AccountNotExistsException { // добавить аргументы
+    public AccountDto getUser(OurAuthToken ourAuthToken) throws AccountNotExistsException { // добавить аргументы
         //Был обычный string, мы поставили @PathVariable("id") и запрос был  @GetMapping("")
         //return new AccountDto();
-        return accountService.getUser(stringId);
+        return accountService.getUser(ourAuthToken.getPrincipal().getId());
     }
 
     @PatchMapping("")
@@ -48,10 +48,9 @@ public class AccountController {
         return accountService.addUser(accountRequest);
     }
 
-    @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable("id") String userId, OurAuthToken ourAuthToken) throws AccountNotExistsException
-    {
-        accountService.deleteUser(userId);
+    @DeleteMapping("")
+    public void deleteUser(OurAuthToken ourAuthToken) throws AccountNotExistsException {
+        accountService.deleteUser(ourAuthToken.getPrincipal().getId());
     }
 
     @GetMapping("/lots")

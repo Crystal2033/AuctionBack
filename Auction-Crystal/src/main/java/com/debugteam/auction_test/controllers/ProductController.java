@@ -23,24 +23,24 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDto getProduct(@PathVariable("id") Integer productId) throws ProductNotExistException {
-        return new ProductDto();
+    public ProductDto getProduct(@PathVariable("id") String productId) throws ProductNotExistException {
+        return productService.getProduct(productId);
     }
 
-    @GetMapping("")
-    public List<ProductDto> getProducts() {
-        return new ArrayList<ProductDto>();
+    @GetMapping("/all/{name}")
+    public List<ProductDto> getProducts(@PathVariable("name") String productName) {
+        return productService.getProducts(productName);
     }
 
     @PostMapping("")
-    public ProductDto addProduct(@RequestBody ProductRequest newProduct, OurAuthToken ourAuthToken) throws ProductExistsException {
+    public ProductDto addProduct(@RequestBody ProductRequest newProduct, OurAuthToken ourAuthToken) throws ProductNotExistException {
         return productService.addProduct(newProduct, ourAuthToken.getPrincipal().getId());
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable("id") Integer productId) throws ProductNotExistException //but its strange. How did you get id of not existing product.
+    public void deleteProduct(@PathVariable("id") String productId) throws ProductNotExistException //but its strange. How did you get id of not existing product.
     {
-
+        productService.deleteLot(productId);
     }
 
     ///////////////////////////////////////////////////////////////////////////
