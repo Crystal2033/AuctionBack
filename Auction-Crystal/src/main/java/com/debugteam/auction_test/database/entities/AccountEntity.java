@@ -39,12 +39,8 @@ public class AccountEntity {
     private String email;
     private String password;
 
-
-    @OneToMany
-    @Column
-    @JoinColumn(name = "user_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<LotEntity> userLots;
-
 
     ///////////////////////////////////////////////////////////////////////////
     //                          equals + hash

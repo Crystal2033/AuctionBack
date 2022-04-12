@@ -1,7 +1,9 @@
 package com.debugteam.auction_test.services.impl;
 
 import com.debugteam.auction_test.database.entities.AccountEntity;
+import com.debugteam.auction_test.database.entities.LotEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
+import com.debugteam.auction_test.database.repositories.LotRepository;
 import com.debugteam.auction_test.exceptions.AccountExistsException;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.models.AccountDto;
@@ -11,7 +13,6 @@ import com.debugteam.auction_test.services.AccountService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +21,13 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
     private final ModelMapper mapper;
     private final AccountRepository accountRepository;
+    private  final LotRepository lotRepository;
 
-    public AccountServiceImpl(ModelMapper mapper, AccountRepository accountRepository) //DI работает.
+    public AccountServiceImpl(ModelMapper mapper, AccountRepository accountRepository, LotRepository lotRepository) //DI работает.
     {
         this.mapper = mapper;
         this.accountRepository = accountRepository;
+        this.lotRepository = lotRepository;
     }
 
     @Override
@@ -43,14 +46,22 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<LotDto> getUserLots(String accountId) throws AccountExistsException
     {
-        //TODO: Make
-        return new ArrayList<LotDto>();
+        AccountEntity user = accountRepository.getById(accountId);
+        List<LotEntity> toConvert = user.getUserLots();
+        List<LotDto> toReturn = new ArrayList<>();
+
+        for (LotEntity lot : toConvert)
+        {
+            toReturn.add(mapper.map(lot, LotDto.class));
+        }
+
+        return toReturn;
     }
 
     @Override
-    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException
+    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException // не надо
     {
-        if (accountRequest.getId() == null || !accountRepository.existsById(accountRequest.getId())) {
+        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
             throw new AccountExistsException();
         }
 

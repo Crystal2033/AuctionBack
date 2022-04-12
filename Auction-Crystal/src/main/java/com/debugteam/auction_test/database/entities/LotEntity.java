@@ -23,6 +23,13 @@ public class LotEntity {
     @Column(length = 32, updatable = false, nullable = false)
     private String id; // primary key in data base
 
+    String name;
+    int startPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private AccountEntity user;
+
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP") // генерация даты
     private LocalDateTime addDate;
