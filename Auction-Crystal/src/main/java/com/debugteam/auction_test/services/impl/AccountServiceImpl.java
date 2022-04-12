@@ -73,31 +73,31 @@ public class AccountServiceImpl implements AccountService {
         return productDto;
     }
 
-    @Override
-    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException // не надо
-    {
-        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
-            throw new AccountExistsException();
-||||||| 681a25a
-        for (LotEntity lot : toConvert)
-        {
-            toReturn.add(mapper.map(lot, LotDto.class));
-        }
-
-        AccountEntity newAccount = mapper.map(accountRequest, AccountEntity.class);
-        accountRepository.save(newAccount);
-        return toReturn;
-    }
-
-    @Override
-    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException // не надо
-    {
-        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
-            throw new AccountExistsException();
-        }
-
-        return lotsDto;
-    }
+//    @Override
+//    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException // не надо
+//    {
+//        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
+//            throw new AccountExistsException();
+//||||||| 681a25a
+//        for (LotEntity lot : toConvert)
+//        {
+//            toReturn.add(mapper.map(lot, LotDto.class));
+//        }
+//
+//        AccountEntity newAccount = mapper.map(accountRequest, AccountEntity.class);
+//        accountRepository.save(newAccount);
+//        return toReturn;
+//    }
+//
+//    @Override
+//    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException // не надо
+//    {
+//        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
+//            throw new AccountExistsException();
+//        }
+//
+//        return lotsDto;
+//    }
 
     @Override
     public AccountDto getUser(String accountId) throws AccountNotExistsException
