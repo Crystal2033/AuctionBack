@@ -42,9 +42,6 @@ public class AccountEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<LotEntity> userLots;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<ProductEntity> userProducts;
-
     ///////////////////////////////////////////////////////////////////////////
     //                          equals + hash
     ///////////////////////////////////////////////////////////////////////////

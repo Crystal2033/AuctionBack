@@ -3,6 +3,6 @@ package com.debugteam.auction_test.models;
 import lombok.Data;
 
 @Data
-public class ProductRequest {
-    private String name;
+public class ProductResponse {
+    private String productName;
 }
