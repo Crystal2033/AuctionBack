@@ -56,7 +56,7 @@ public class ProductController {
     ///////////////////////////////////////////////////////////////////////////
     private ProductResponse convertToResponse(ProductRequest productReq) {
         ProductResponse productResp = new ProductResponse();
-        productResp.setProductName(productReq.getProductName());
+        productResp.setProductName(productReq.getName());
         return productResp;
     }
 }
