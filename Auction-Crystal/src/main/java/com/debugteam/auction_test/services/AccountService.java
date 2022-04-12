@@ -18,10 +18,6 @@ import java.util.List;
         List<ProductDto> getUserProducts(String userId) throws AccountNotExistsException; // Не нужно передавать String id?
 
         AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException;
-||||||| 681a25a
-        List<LotDto> getUserLots(String userId) throws AccountExistsException; // Не нужно передавать String id?
-
-        AccountDto addUser(AccountRequest studentRequest) throws AccountExistsException;
 
         AccountDto getUser(String studentId) throws AccountNotExistsException; // Не нужно передавать String id?
 

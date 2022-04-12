@@ -14,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Table(name = "lot")
+@Table(name="lot")
 public class LotEntity {
 
     @Id
@@ -23,7 +23,7 @@ public class LotEntity {
     @Column(length = 32, updatable = false, nullable = false)
     private String id; // primary key in data base
 
-    String name; //
+    String name;
     int startPrice;
 
     @ManyToOne
@@ -38,6 +38,7 @@ public class LotEntity {
     private Integer serial;
 
     //private Product product;
+
 
 
     ///////////////////////////////////////////////////////////////////////////
