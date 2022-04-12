@@ -40,6 +40,9 @@ public class AccountEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<LotEntity> userLots;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<ProductEntity> userProducts;
+
     ///////////////////////////////////////////////////////////////////////////
     //                          equals + hash
     ///////////////////////////////////////////////////////////////////////////
@@ -49,9 +52,9 @@ public class AccountEntity {
         if (o == null || getClass() != o.getClass()) return false;
         AccountEntity that = (AccountEntity) o;
         return Objects.equals(id, that.id) && Objects.equals(addDate, that.addDate) &&
-               Objects.equals(serial, that.serial) &&
-               Objects.equals(nickname, that.nickname) &&
-               Objects.equals(money, that.money);
+                Objects.equals(serial, that.serial) &&
+                Objects.equals(nickname, that.nickname) &&
+                Objects.equals(money, that.money);
     }
 
     @Override

@@ -57,20 +57,20 @@ public class AccountServiceImpl implements AccountService {
         return lotsDto;
     }
 
-//    @Override
-//    public List<ProductDto> getUserProducts(String accountId) throws AccountNotExistsException
-//    {
-//        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
-//        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
-//
-//        List<ProductEntity> productsEntity = user.getUserProducts();
-//
-//        List<ProductDto> productDto = new ArrayList<>();
-//        for (ProductEntity product : productsEntity) {
-//            productDto.add(mapper.map(product, ProductDto.class));
-//        }
-//        return productDto;
-//    }
+    @Override
+    public List<ProductDto> getUserProducts(String accountId) throws AccountNotExistsException
+    {
+        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
+        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
+
+        List<ProductEntity> productsEntity = user.getUserProducts();
+
+        List<ProductDto> productDto = new ArrayList<>();
+        for (ProductEntity product : productsEntity) {
+            productDto.add(mapper.map(product, ProductDto.class));
+        }
+        return productDto;
+    }
 
 
     @Override

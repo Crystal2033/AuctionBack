@@ -1,16 +1,12 @@
 package com.debugteam.auction_test.services.impl;
 
 import com.debugteam.auction_test.database.entities.AccountEntity;
-import com.debugteam.auction_test.database.entities.LotEntity;
 import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.ProductRepository;
-import com.debugteam.auction_test.exceptions.AccountNotExistsException;
-import com.debugteam.auction_test.exceptions.ProductExistsException;
 import com.debugteam.auction_test.exceptions.ProductNotExistException;
 import com.debugteam.auction_test.models.ProductDto;
 import com.debugteam.auction_test.models.ProductRequest;
-import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -33,16 +29,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getProduct(String productId) throws ProductNotExistException
-    {
+    public ProductDto getProduct(String productId) throws ProductNotExistException {
         Optional<ProductEntity> existedProduct = productRepository.findOptionalById(productId);
         ProductEntity product = existedProduct.orElseThrow(ProductNotExistException::new);
         return mapper.map(product, ProductDto.class);
     }
 
     @Override
-    public List<ProductDto> getProducts(String productName)
-    {
+    public List<ProductDto> getProducts(String productName) {
         List<ProductEntity> productsEntity = productRepository.findAllByName(productName);
         List<ProductDto> productsDto = new ArrayList<>();
 
@@ -53,8 +47,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto addProduct(ProductRequest productRequest, String user_id) throws ProductNotExistException
-    {
+    public ProductDto addProduct(ProductRequest productRequest, String user_id) throws ProductNotExistException {
         if (productRequest.getName() == null) {
             throw new ProductNotExistException();
         }
@@ -69,8 +62,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteLot(String productId) throws ProductNotExistException
-    {
+    public void deleteLot(String productId) throws ProductNotExistException {
         Optional<ProductEntity> existedProduct = productRepository.findOptionalById(productId);
         ProductEntity product = existedProduct.orElseThrow(ProductNotExistException::new);
         productRepository.delete(product);

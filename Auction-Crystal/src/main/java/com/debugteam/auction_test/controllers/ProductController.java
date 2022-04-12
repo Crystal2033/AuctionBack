@@ -1,62 +1,52 @@
 package com.debugteam.auction_test.controllers;
 
+import com.debugteam.auction_test.exceptions.ProductExistsException;
 import com.debugteam.auction_test.exceptions.ProductNotExistException;
 import com.debugteam.auction_test.models.ProductRequest;
-import com.debugteam.auction_test.models.ProductResponse;
+import com.debugteam.auction_test.models.ProductDto;
+import com.debugteam.auction_test.security.models.OurAuthToken;
+import com.debugteam.auction_test.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private HashMap<Integer, ProductRequest> savedProducts = new HashMap<>();
+    private final ProductService productService;
 
-    @GetMapping("/{id}")
-    public ProductResponse getProduct(@PathVariable("id") Integer productId) throws ProductNotExistException {
-        if (!savedProducts.containsKey(productId)) {
-            throw new ProductNotExistException();
-        }
-        ProductResponse foundProduct = convertToResponse(savedProducts.get(productId));
-        return foundProduct;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
-    @GetMapping("")
-    public ArrayList<ProductResponse> getProducts() {
-        ArrayList<ProductResponse> result = new ArrayList<>();
-        for (Map.Entry<Integer, ProductRequest> entry : savedProducts.entrySet()) {
-            ProductResponse productResp = convertToResponse(entry.getValue());
-            result.add(productResp);
-        }
-        return result;
+    @GetMapping("/{id}")
+    public ProductDto getProduct(@PathVariable("id") String productId) throws ProductNotExistException {
+        return productService.getProduct(productId);
+    }
+
+    @GetMapping("/all/{name}")
+    public List<ProductDto> getProducts(@PathVariable("name") String productName) {
+        return productService.getProducts(productName);
     }
 
     @PostMapping("")
-    public Integer addProduct(ProductRequest newProduct) {
-        Integer id = savedProducts.size();
-        savedProducts.put(id, newProduct);
-        return id;
+    public ProductDto addProduct(@RequestBody ProductRequest newProduct, OurAuthToken ourAuthToken) throws ProductNotExistException {
+        return productService.addProduct(newProduct, ourAuthToken.getPrincipal().getId());
     }
 
     @DeleteMapping("/{id}")
-    public Integer deleteProduct(@PathVariable("id") Integer productId) throws ProductNotExistException //but its strange. How did you get id of not existing product.
+    public void deleteProduct(@PathVariable("id") String productId) throws ProductNotExistException //but its strange. How did you get id of not existing product.
     {
-        if (!savedProducts.containsKey(productId)) {
-            throw new ProductNotExistException();
-        }
-        savedProducts.remove(productId);
-        return productId;
+        productService.deleteLot(productId);
     }
 
     ///////////////////////////////////////////////////////////////////////////
     //                      private
     ///////////////////////////////////////////////////////////////////////////
-    private ProductResponse convertToResponse(ProductRequest productReq) {
-        ProductResponse productResp = new ProductResponse();
-        productResp.setProductName(productReq.getName());
-        return productResp;
+    private ProductDto convertToResponse(ProductRequest productReq) {
+        return new ProductDto();
     }
 }
