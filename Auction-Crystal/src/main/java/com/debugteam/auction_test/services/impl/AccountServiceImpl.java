@@ -47,28 +47,15 @@ public class AccountServiceImpl implements AccountService {
     public List<LotDto> getUserLots(String accountId) throws AccountNotExistsException {
         Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
         AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
-        List<LotEntity> toConvert = user.getUserLots();
-        List<LotDto> toReturn = new ArrayList<>();
+        List<LotEntity> lotEntities = user.getUserLots();
+        List<LotDto> lotsDto = new ArrayList<>();
 
-        for (LotEntity lot : toConvert)
+        for (LotEntity lot : lotEntities)
         {
-            toReturn.add(mapper.map(lot, LotDto.class));
+            lotsDto.add(mapper.map(lot, LotDto.class));
         }
 
-        return toReturn;
-    }
-
-    @Override
-    public AccountDto addUser(AccountRequest accountRequest) throws AccountExistsException // не надо
-    {
-        if (accountRequest.getId() != null && accountRepository.existsById(accountRequest.getId())) {
-            throw new AccountExistsException();
-        }
-
-        AccountEntity newAccount = mapper.map(accountRequest, AccountEntity.class);
-        accountRepository.save(newAccount);
-
-        return mapper.map(newAccount, AccountDto.class);
+        return lotsDto;
     }
 
     @Override
