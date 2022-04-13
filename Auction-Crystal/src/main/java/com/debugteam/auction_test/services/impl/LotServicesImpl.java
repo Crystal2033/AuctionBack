@@ -2,11 +2,14 @@ package com.debugteam.auction_test.services.impl;
 
 import com.debugteam.auction_test.database.entities.AccountEntity;
 import com.debugteam.auction_test.database.entities.LotEntity;
+import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.LotRepository;
+import com.debugteam.auction_test.database.repositories.ProductRepository;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.exceptions.LotExistsException;
 import com.debugteam.auction_test.exceptions.LotNotExistsException;
+import com.debugteam.auction_test.exceptions.ProductAlreadyInLotException;
 import com.debugteam.auction_test.models.LotDto;
 import com.debugteam.auction_test.models.LotRequest;
 import com.debugteam.auction_test.services.LotService;
@@ -22,11 +25,13 @@ public class LotServicesImpl implements LotService {
 
     private final LotRepository lotRepository;
     private final AccountRepository accountRepository;
+    private final ProductRepository productRepository;
     private final ModelMapper mapper;
 
-    public LotServicesImpl(LotRepository lotRepository, AccountRepository accountRepository, ModelMapper mapper) {
+    public LotServicesImpl(LotRepository lotRepository, AccountRepository accountRepository, ProductRepository productRepository, ModelMapper mapper) {
         this.lotRepository = lotRepository;
         this.accountRepository = accountRepository;
+        this.productRepository = productRepository;
         this.mapper = mapper;
     }
 
@@ -59,7 +64,8 @@ public class LotServicesImpl implements LotService {
 
     //Надо добавить productId, но у нас много продуктов, поэтому нужно передавать как-то лист продуктов.
     @Override
-    public LotDto addLot(LotRequest lotRequest, String userId) throws LotExistsException, AccountNotExistsException {
+    public LotDto addLot(LotRequest lotRequest, String userId) throws LotExistsException, AccountNotExistsException
+    , ProductAlreadyInLotException {
         if (lotRequest.getId() == null || lotRepository.existsById(lotRequest.getId())){
             throw new LotExistsException();
         }
@@ -67,10 +73,23 @@ public class LotServicesImpl implements LotService {
 
         Optional<AccountEntity> existedUser = accountRepository.findOptionalById(userId);
         AccountEntity userEntity = existedUser.orElseThrow(AccountNotExistsException::new);
+
+        List<ProductEntity> productsEntity = new ArrayList<>();
+        for (String productId : lotRequest.getProductsId()){
+            ProductEntity productEntity = productRepository.getById(productId);
+            if (productEntity.getLot() != null){
+                throw new ProductAlreadyInLotException();
+            }
+
+            productEntity.setLot(lot);
+            productsEntity.add(productEntity);
+        }
+        lot.setLotProducts(productsEntity);
+        lot.setUser(userEntity);
         //TODO: Проход в цикле по списку строк-id товаров из lotRequest.
         //Здесь все то же самое, что у аккаунта и лота. То есть у нас здесь много лотов и один аккаунт. А нам нужно
         //сделать много продуктов и один лот.
-        lot.setUser(userEntity);
+
 
         lotRepository.save(lot);
 

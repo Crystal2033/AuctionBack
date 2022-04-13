@@ -13,8 +13,8 @@ public class LotDto {
     private String name;
     private int startPrice;
     private int bidStep;
-    private List<BetDto> bets;
-    //private List<ProductDto> products
+    private List<BetDto> lotBets;
+    private List<ProductDto> lotProducts;
 
     //int lastBid; в бд у ставок узнаем, наверное.
 }

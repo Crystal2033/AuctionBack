@@ -4,6 +4,7 @@ package com.debugteam.auction_test.controllers;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.exceptions.LotExistsException;
 import com.debugteam.auction_test.exceptions.LotNotExistsException;
+import com.debugteam.auction_test.exceptions.ProductAlreadyInLotException;
 import com.debugteam.auction_test.models.LotDto;
 import com.debugteam.auction_test.models.LotRequest;
 import com.debugteam.auction_test.security.models.OurAuthToken;
@@ -39,7 +40,7 @@ public class LotController {
 
     @PostMapping
     public LotDto addLot(@RequestBody LotRequest lotRequest, OurAuthToken authToken) throws LotExistsException,
-            AccountNotExistsException {
+            AccountNotExistsException, ProductAlreadyInLotException {
         return lotServices.addLot(lotRequest, authToken.getPrincipal().getId());
     }
 
