@@ -2,8 +2,8 @@ package com.debugteam.auction_test.controllers;
 
 import com.debugteam.auction_test.exceptions.BetExistException;
 import com.debugteam.auction_test.exceptions.BetNotExistException;
-import com.debugteam.auction_test.models.BetRequest;
 import com.debugteam.auction_test.models.BetDto;
+import com.debugteam.auction_test.models.BetRequest;
 import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.BetService;
 import org.springframework.web.bind.annotation.*;

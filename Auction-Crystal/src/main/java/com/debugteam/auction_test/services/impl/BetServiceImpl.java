@@ -30,7 +30,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public BetDto addBet(BetRequest betRequest, String userId) throws BetExistException {
-        if (betRequest.getId() == null || betRepository.existsById(betRequest.getId())){
+        if (betRequest.getId() == null || betRepository.existsById(betRequest.getId())) {
             throw new BetExistException();
         }
 
@@ -44,21 +44,21 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public void deleteBet(String betId) throws BetNotExistException{
+    public void deleteBet(String betId) throws BetNotExistException {
         Optional<BetEntity> existedBet = betRepository.findOptionalById(betId);
         BetEntity product = existedBet.orElseThrow(BetNotExistException::new);
         betRepository.delete(product);
     }
 
     @Override
-    public BetDto getBet(String betId) throws  BetNotExistException{
+    public BetDto getBet(String betId) throws BetNotExistException {
         Optional<BetEntity> existedBet = betRepository.findOptionalById(betId);
         BetEntity bet = existedBet.orElseThrow(BetNotExistException::new);
         return mapper.map(bet, BetDto.class);
     }
 
     @Override
-    public List<BetDto> getBets(){
+    public List<BetDto> getBets() {
         List<BetEntity> betsEntity = betRepository.findAll();
         List<BetDto> betsDto = new ArrayList<>();
 

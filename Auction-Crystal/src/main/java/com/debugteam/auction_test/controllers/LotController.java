@@ -11,7 +11,6 @@ import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.LotService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,8 +38,7 @@ public class LotController {
 
 
     @PostMapping
-    public LotDto addLot(@RequestBody LotRequest lotRequest, OurAuthToken authToken) throws LotExistsException,
-            AccountNotExistsException, ProductAlreadyInLotException {
+    public LotDto addLot(@RequestBody LotRequest lotRequest, OurAuthToken authToken) throws LotExistsException, AccountNotExistsException, ProductAlreadyInLotException {
         return lotServices.addLot(lotRequest, authToken.getPrincipal().getId());
     }
 
