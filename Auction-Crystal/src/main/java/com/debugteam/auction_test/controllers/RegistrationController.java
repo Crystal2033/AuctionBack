@@ -1,6 +1,8 @@
 package com.debugteam.auction_test.controllers;
 
 import com.debugteam.auction_test.exceptions.AccountExistsException;
+import com.debugteam.auction_test.exceptions.AccountNotExistsException;
+import com.debugteam.auction_test.exceptions.UserAccessViolationException;
 import com.debugteam.auction_test.models.AccountDto;
 import com.debugteam.auction_test.models.RegistrationParamsRequest;
 import com.debugteam.auction_test.services.RegistrationService;
@@ -22,5 +24,11 @@ public class RegistrationController {
     @PostMapping("/signup")
     public AccountDto signup(@RequestBody RegistrationParamsRequest params) throws AccountExistsException {
         return registrationService.signup(params);
+    }
+
+    @PostMapping("/login")
+    public AccountDto login(@RequestBody RegistrationParamsRequest params) throws AccountNotExistsException,
+            UserAccessViolationException {
+        return registrationService.login(params);
     }
 }

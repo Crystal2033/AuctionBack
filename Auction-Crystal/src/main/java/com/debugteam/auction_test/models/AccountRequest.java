@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountRequest {
-    private String id; // Для фронта
+    private String id; // Для фронта. TODO: убрать
     //@JsonProperty("nickname")
     private String nickname;
 

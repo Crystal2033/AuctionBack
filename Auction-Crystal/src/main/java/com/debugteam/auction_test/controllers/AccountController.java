@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/accounts") // accounts (Был account)
+@RequestMapping("/api/account") // accounts (Был account)
 public class AccountController {
 
     private final AccountService accountService;
@@ -52,7 +52,7 @@ public class AccountController {
 
     @PostMapping("/money")
     public void addMoney(@RequestBody AccountRequest accountRequest, OurAuthToken ourAuthToken) throws AccountNotExistsException// добавить аргументы // token
-    {
+    {//TODO: request param закинуть.
         accountRequest.setId(ourAuthToken.getPrincipal().getId());
         accountService.addMoney(accountRequest);
     }

@@ -52,7 +52,7 @@ public class BetServiceImpl implements BetService {
             throw new NotEnoughMoneyException();
         }
 
-        accountEntity.setMoney(moneyAfterBet);
+        accountEntity.setMoney(moneyAfterBet); //TODO: не вычитать, а проверять по ставкам в списке, можем ли поставить.
 
         BetEntity newBet = mapper.map(betRequest, BetEntity.class);
 
@@ -60,6 +60,7 @@ public class BetServiceImpl implements BetService {
         newBet.setUser(accountEntity);
 
         betRepository.save(newBet);
+
 
         return mapper.map(newBet, BetDto.class);
     }

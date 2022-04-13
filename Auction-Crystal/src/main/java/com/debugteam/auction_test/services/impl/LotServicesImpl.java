@@ -35,7 +35,7 @@ public class LotServicesImpl implements LotService {
 
     @Override
     public List<LotDto> getSearchLots(String name) throws LotNotExistsException {
-        List<LotEntity> foundEntities = lotRepository.findAllByName(name);
+        List<LotEntity> foundEntities = lotRepository.findByNameContainingIgnoreCaseOrderByName(name);
 //        if(name == null || (foundEntities.size() == 0)){
 //            throw new LotNotExistsException();
 //        }

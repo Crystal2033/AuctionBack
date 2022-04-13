@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<AccountEntity, String> {
     Optional<AccountEntity> findOptionalById(String id);
 
+    Optional<AccountEntity> findOptionalBySecretToken(String token);
+
     Optional<AccountEntity> findOptionalByEmail(String email);
 
     boolean existsById(String id);

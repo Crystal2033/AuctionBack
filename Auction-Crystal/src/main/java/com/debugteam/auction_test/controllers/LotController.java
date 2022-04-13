@@ -23,6 +23,7 @@ public class LotController {
 
     @GetMapping("/search")
     public List<LotDto> getSearchLots(@RequestParam("name") String name) throws LotNotExistsException {
+        //TODO: Через pathVariable
 
         return lotServices.getSearchLots(name);
     }

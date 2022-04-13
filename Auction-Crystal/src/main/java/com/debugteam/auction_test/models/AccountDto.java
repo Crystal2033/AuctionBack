@@ -6,5 +6,6 @@ import lombok.Data;
 public class AccountDto {
     private String id; //from db
     private String nickname;
+    private String secretToken;
     private int money;
 }

@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     {
         this.mainAuthFilter = mainAuthFilter;
         this.privateZones = privateZones;
-        this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/accounts/**")));
+        this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/account/**")));
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/bets/**")));
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/products/**")));
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/lots/add/**")));
@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-
+        //TODO: Поставить сюда privatezones
         httpSecurity
                 .cors()
                 .disable()

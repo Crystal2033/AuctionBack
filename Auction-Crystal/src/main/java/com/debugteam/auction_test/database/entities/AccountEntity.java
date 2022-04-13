@@ -37,6 +37,8 @@ public class AccountEntity {
     private String email;
     private String password;
 
+    private String secretToken;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<LotEntity> userLots;
 

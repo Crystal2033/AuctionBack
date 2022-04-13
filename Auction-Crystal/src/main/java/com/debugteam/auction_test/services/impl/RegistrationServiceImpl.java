@@ -4,6 +4,8 @@ package com.debugteam.auction_test.services.impl;
 import com.debugteam.auction_test.database.entities.AccountEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.exceptions.AccountExistsException;
+import com.debugteam.auction_test.exceptions.AccountNotExistsException;
+import com.debugteam.auction_test.exceptions.UserAccessViolationException;
 import com.debugteam.auction_test.models.AccountDto;
 import com.debugteam.auction_test.models.RegistrationParamsRequest;
 import com.debugteam.auction_test.services.RegistrationService;
@@ -38,6 +40,28 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         user.setPassword(password);
         user.setMoney(0);
+        accountRepository.save(user);
+        return mapper.map(user, AccountDto.class);
+    }
+
+
+
+    //TODO: сделать login и вернуть токен, сохранить его в account и проверят по нему.
+    @Override
+    public AccountDto login(RegistrationParamsRequest registrationParamsRequest) throws AccountNotExistsException,
+            UserAccessViolationException {
+        Optional<AccountEntity> existedUser = accountRepository.findOptionalByEmail(registrationParamsRequest.getEmail());
+        if (existedUser.isEmpty()) {
+            throw new AccountNotExistsException();
+        }
+        AccountEntity user = existedUser.get();
+        if (!passwordEncoder.matches( registrationParamsRequest.getPassword() + "salt", user.getPassword())) {
+                throw new UserAccessViolationException();
+        }
+
+        String token = passwordEncoder.encode(user.getId() + "tlas");
+
+        user.setSecretToken(token);
         accountRepository.save(user);
         return mapper.map(user, AccountDto.class);
     }

@@ -11,8 +11,12 @@ import java.util.Optional;
 public interface LotRepository extends JpaRepository<LotEntity, String> {
     Optional<LotEntity> findOptionalById(String id);
 
+
     //Optional<LotEntity> findOptionalByUser_id(String user_id);
     List<LotEntity> findAllByName(String name);
+    //List<LotEntity> findAllByNameContainingAndNameRegex (String name);
+
+    List<LotEntity> findByNameContainingIgnoreCaseOrderByName(String name); //TODO: вместо
 
     boolean existsById(String id);
 

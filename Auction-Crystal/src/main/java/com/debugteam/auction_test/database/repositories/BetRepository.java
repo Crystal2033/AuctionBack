@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface BetRepository extends JpaRepository<BetEntity, String> {
     Optional<BetEntity> findOptionalById(String betId);
 
-    boolean existsById(String betId);
+    boolean existsById(String betId); //Поиск по лоту, где id такой-то и макс-значение data такое-то.
+    //BetEntity findTopByAddDateDescAndByOrderByLotId(String lotId); //TODO: посмотреть, как работает и работает ли.
 }

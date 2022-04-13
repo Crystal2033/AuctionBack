@@ -22,8 +22,7 @@ import java.util.*;
 @Component
 public class MainAuthFilter implements Filter {
 
-    private static final String LOGIN_HEADER = "x-access-login";
-    private static final String PASSWORD_HEADER = "x-access-password";
+    private static final String TOKEN_HEADER = "x-access-token";
 
     protected final AuthenticationFailureHandler failureHandler;
 
@@ -68,18 +67,14 @@ public class MainAuthFilter implements Filter {
 
     @Nullable
     protected OurAuthToken tryAuth(HttpServletRequest req, HttpServletResponse res) {
-        String login = req.getHeader(LOGIN_HEADER);
-        String password = req.getHeader(PASSWORD_HEADER);
+        String token = req.getHeader(TOKEN_HEADER);
 
-        Optional<AccountEntity> optionalUser = accountRepository.findOptionalByEmail(login);
+        Optional<AccountEntity> optionalUser = accountRepository.findOptionalBySecretToken(token);
         if (optionalUser.isEmpty()) {
             return null;
         }
         AccountEntity user = optionalUser.get();
 
-        if (!passwordEncoder.matches(password + "salt", user.getPassword())) {
-            return null;
-        }
 
         Collection<? extends GrantedAuthority> authorities = Collections.singleton(
                 new SimpleGrantedAuthority("BASE_USER")
@@ -88,20 +83,8 @@ public class MainAuthFilter implements Filter {
         return new OurAuthToken(user.getId(), user, authorities);
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    //                          private
-    ///////////////////////////////////////////////////////////////////////////
 
     private boolean requireAuth(HttpServletRequest req) {
-        Iterator<RequestMatcher> iter = requireAuthMatcher.iterator();
-        RequestMatcher tmp;
-        while (iter.hasNext()) {
-            tmp = iter.next();
-            if (tmp != null && tmp.matches(req)) {
-                return true;
-            }
-        }
-        return false;
-        //return requireAuthMatcher == null || requireAuthMatcher.matches(req);
+        return requireAuthMatcher.stream().anyMatch(requestMatcher -> requestMatcher.matches(req));
     }
 }
