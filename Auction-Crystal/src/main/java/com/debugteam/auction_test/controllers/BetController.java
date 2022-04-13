@@ -2,6 +2,8 @@ package com.debugteam.auction_test.controllers;
 
 import com.debugteam.auction_test.exceptions.BetExistException;
 import com.debugteam.auction_test.exceptions.BetNotExistException;
+import com.debugteam.auction_test.exceptions.BetOnOwnLotException;
+import com.debugteam.auction_test.exceptions.LotNotExistsException;
 import com.debugteam.auction_test.models.BetRequest;
 import com.debugteam.auction_test.models.BetDto;
 import com.debugteam.auction_test.security.models.OurAuthToken;
@@ -31,7 +33,8 @@ public class BetController {
     }
 
     @PostMapping("")
-    public BetDto addBet(@RequestBody BetRequest newBet, OurAuthToken authToken) throws BetExistException {
+    public BetDto addBet(@RequestBody BetRequest newBet, OurAuthToken authToken) throws BetExistException,
+            LotNotExistsException, BetOnOwnLotException {
         return betService.addBet(newBet, authToken.getPrincipal().getId());
     }
 

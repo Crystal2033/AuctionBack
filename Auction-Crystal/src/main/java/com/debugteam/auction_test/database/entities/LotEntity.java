@@ -41,6 +41,9 @@ public class LotEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lot")
     private List<ProductEntity> lotProducts;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lot")
+    private List<BetEntity> lotBets;
+
     //private Product product;
 
 

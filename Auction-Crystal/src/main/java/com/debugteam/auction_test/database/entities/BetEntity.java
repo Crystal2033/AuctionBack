@@ -25,6 +25,10 @@ public class BetEntity {
     @JoinColumn(name = "user_id")
     private AccountEntity user;
 
+    @ManyToOne
+    @JoinColumn(name = "lot_id")
+    private LotEntity lot;
+
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP") // генерация даты
     private LocalDateTime addDate;

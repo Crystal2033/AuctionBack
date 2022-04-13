@@ -8,7 +8,7 @@ import lombok.Data;
 public class BetRequest {
 
     private String id;
-    private String lotId;
+    private String lotId; // Куда помещаем ставку, в какой лот.
 
     private Integer betSize;
 }

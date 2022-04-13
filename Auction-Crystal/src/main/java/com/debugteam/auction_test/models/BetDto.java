@@ -11,6 +11,4 @@ public class BetDto {
     //private String userNickname; Для этого есть id.
     private Integer betSize;
 
-    private LotDto lotDto;
-    private AccountDto accountDto;
 }
