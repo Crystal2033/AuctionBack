@@ -8,16 +8,17 @@ import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.BetService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/bets")
 public class BetController {
 
-    private BetService betService;
+    private final BetService betService;
+
+    public BetController(BetService betService) {
+        this.betService = betService;
+    }
 
     @GetMapping("/{id}")
     public BetDto getBet(@PathVariable("id") String betId) throws BetNotExistException {
@@ -34,7 +35,7 @@ public class BetController {
         return betService.addBet(newBet, authToken.getPrincipal().getId());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") //TODO: сделать приватными.
     public void deleteBet(@PathVariable("id") String betId) throws BetNotExistException //but its strange. How did yoi get id of not existing bet.
     {
         betService.deleteBet(betId);
