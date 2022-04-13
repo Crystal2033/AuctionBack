@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface BetRepository extends JpaRepository<BetEntity, String> {
     Optional<BetEntity> findOptionalById(String betId);
+
     boolean existsById(String betId);
 }

@@ -5,6 +5,7 @@ import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.ProductRepository;
 import com.debugteam.auction_test.exceptions.ProductNotExistException;
+import com.debugteam.auction_test.exceptions.UserAccessViolationException;
 import com.debugteam.auction_test.models.ProductDto;
 import com.debugteam.auction_test.models.ProductRequest;
 import com.debugteam.auction_test.services.ProductService;
@@ -62,9 +63,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteLot(String productId) throws ProductNotExistException {
+    public void deleteLot(String productId, String userId) throws ProductNotExistException, UserAccessViolationException {
         Optional<ProductEntity> existedProduct = productRepository.findOptionalById(productId);
         ProductEntity product = existedProduct.orElseThrow(ProductNotExistException::new);
+        AccountEntity accountEntity = accountRepository.getById(userId);
+        if (product.getUser() != accountEntity) {
+            throw new UserAccessViolationException();
+        }
+
         productRepository.delete(product);
     }
 }

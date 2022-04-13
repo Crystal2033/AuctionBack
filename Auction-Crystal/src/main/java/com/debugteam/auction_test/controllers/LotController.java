@@ -1,17 +1,13 @@
 package com.debugteam.auction_test.controllers;
 
 
-import com.debugteam.auction_test.exceptions.AccountNotExistsException;
-import com.debugteam.auction_test.exceptions.LotExistsException;
-import com.debugteam.auction_test.exceptions.LotNotExistsException;
-import com.debugteam.auction_test.exceptions.ProductAlreadyInLotException;
+import com.debugteam.auction_test.exceptions.*;
 import com.debugteam.auction_test.models.LotDto;
 import com.debugteam.auction_test.models.LotRequest;
 import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.LotService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -45,8 +41,9 @@ public class LotController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLot(@PathVariable String id) throws LotNotExistsException {
-        lotServices.deleteLot(id);
+    public void deleteLot(@PathVariable String id, OurAuthToken authToken) throws LotNotExistsException,
+            UserAccessViolationException {
+        lotServices.deleteLot(id, authToken.getPrincipal().getId());
     }
 
 }

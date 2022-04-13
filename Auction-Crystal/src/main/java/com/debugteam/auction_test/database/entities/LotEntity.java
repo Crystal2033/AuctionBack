@@ -44,8 +44,6 @@ public class LotEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lot")
     private List<BetEntity> lotBets;
 
-    //private Product product;
-
 
     ///////////////////////////////////////////////////////////////////////////
     //                          equals + hash

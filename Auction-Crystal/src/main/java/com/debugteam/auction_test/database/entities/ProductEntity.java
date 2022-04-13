@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Table(name="product")
+@Table(name = "product")
 public class ProductEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")

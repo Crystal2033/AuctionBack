@@ -8,7 +8,7 @@ import lombok.Data;
 public class BetDto {
 
     private String id;
-    //private String userNickname; Для этого есть id.
+
     private Integer betSize;
 
 }

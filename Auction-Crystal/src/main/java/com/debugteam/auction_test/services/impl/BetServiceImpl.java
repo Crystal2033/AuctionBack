@@ -6,11 +6,7 @@ import com.debugteam.auction_test.database.entities.LotEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.BetRepository;
 import com.debugteam.auction_test.database.repositories.LotRepository;
-import com.debugteam.auction_test.exceptions.BetExistException;
-import com.debugteam.auction_test.exceptions.BetNotExistException;
-import com.debugteam.auction_test.exceptions.BetOnOwnLotException;
-import com.debugteam.auction_test.exceptions.LotNotExistsException;
-import com.debugteam.auction_test.models.AccountDto;
+import com.debugteam.auction_test.exceptions.*;
 import com.debugteam.auction_test.models.BetDto;
 import com.debugteam.auction_test.models.BetRequest;
 import com.debugteam.auction_test.services.BetService;
@@ -37,48 +33,58 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public BetDto addBet(BetRequest betRequest, String userId) throws BetExistException, LotNotExistsException,
-            BetOnOwnLotException {
-        if (betRequest.getId() == null || betRepository.existsById(betRequest.getId())){ //мб, после || не нужно.
+            BetOnOwnLotException, NotEnoughMoneyException {
+        if (betRequest.getId() == null || betRepository.existsById(betRequest.getId())) { //мб, после || не нужно.
             throw new BetExistException();
         }
         //TODO: проверять на наличие денег для ставки на данный товар. И снимать у юзера деньги. И весь механизм
-        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(userId);
-        AccountEntity accountEntity = existedUser.orElseThrow(LotNotExistsException::new); //ОТЛАДОЧНАЯ СТРОКА, УБРАТЬ!!!
-        //4028b88180193384018019339fa20000
+
+        AccountEntity accountEntity = accountRepository.getById(userId);
         Optional<LotEntity> existedLot = lotRepository.findOptionalById(betRequest.getLotId());
         LotEntity lotEntity = existedLot.orElseThrow(LotNotExistsException::new);
 
-        if (lotEntity.getUser() == accountEntity){ //Мы не можем поставить ставку на свой же лот, нет никакого смысла.
+        if (lotEntity.getUser() == accountEntity) { //Мы не можем поставить ставку на свой же лот, нет никакого смысла.
             throw new BetOnOwnLotException();
         }
+
+        int moneyAfterBet = accountEntity.getMoney() - betRequest.getBetSize();
+        if (moneyAfterBet < 0) {
+            throw new NotEnoughMoneyException();
+        }
+
+        accountEntity.setMoney(moneyAfterBet);
 
         BetEntity newBet = mapper.map(betRequest, BetEntity.class);
 
         newBet.setLot(lotEntity);
         newBet.setUser(accountEntity);
 
-        //AccountDto userDto = mapper.map(accountEntity, AccountDto.class);
         betRepository.save(newBet);
 
         return mapper.map(newBet, BetDto.class);
     }
 
     @Override
-    public void deleteBet(String betId) throws BetNotExistException{
+    public void deleteBet(String betId, String userId) throws BetNotExistException, UserAccessViolationException {
         Optional<BetEntity> existedBet = betRepository.findOptionalById(betId);
-        BetEntity product = existedBet.orElseThrow(BetNotExistException::new);
-        betRepository.delete(product);
+        BetEntity bet = existedBet.orElseThrow(BetNotExistException::new);
+        AccountEntity accountEntity = accountRepository.getById(userId);
+        if (bet.getUser() != accountEntity) {
+            throw new UserAccessViolationException();
+        }
+
+        betRepository.delete(bet);
     }
 
     @Override
-    public BetDto getBet(String betId) throws  BetNotExistException{
+    public BetDto getBet(String betId) throws BetNotExistException {
         Optional<BetEntity> existedBet = betRepository.findOptionalById(betId);
         BetEntity bet = existedBet.orElseThrow(BetNotExistException::new);
         return mapper.map(bet, BetDto.class);
     }
 
     @Override
-    public List<BetDto> getBets(){
+    public List<BetDto> getBets() {
         List<BetEntity> betsEntity = betRepository.findAll();
         List<BetDto> betsDto = new ArrayList<>();
 

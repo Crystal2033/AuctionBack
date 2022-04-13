@@ -1,15 +1,13 @@
 package com.debugteam.auction_test.controllers;
 
-import com.debugteam.auction_test.exceptions.ProductExistsException;
 import com.debugteam.auction_test.exceptions.ProductNotExistException;
-import com.debugteam.auction_test.models.ProductRequest;
+import com.debugteam.auction_test.exceptions.UserAccessViolationException;
 import com.debugteam.auction_test.models.ProductDto;
+import com.debugteam.auction_test.models.ProductRequest;
 import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -38,9 +36,10 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable("id") String productId) throws ProductNotExistException //but its strange. How did you get id of not existing product.
+    public void deleteProduct(@PathVariable("id") String productId, OurAuthToken authToken) throws ProductNotExistException,
+            UserAccessViolationException//but its strange. How did you get id of not existing product.
     {
-        productService.deleteLot(productId);
+        productService.deleteLot(productId, authToken.getPrincipal().getId());
     }
 
     ///////////////////////////////////////////////////////////////////////////

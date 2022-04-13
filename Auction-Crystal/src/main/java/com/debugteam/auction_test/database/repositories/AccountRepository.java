@@ -12,6 +12,8 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, String> {
     Optional<AccountEntity> findOptionalById(String id);
+
     Optional<AccountEntity> findOptionalByEmail(String email);
+
     boolean existsById(String id);
 }

@@ -20,7 +20,7 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
     private final ModelMapper mapper;
     private final AccountRepository accountRepository;
-    private  final LotRepository lotRepository;
+    private final LotRepository lotRepository;
 
     public AccountServiceImpl(ModelMapper mapper, AccountRepository accountRepository, LotRepository lotRepository) //DI работает.
     {
@@ -37,10 +37,11 @@ public class AccountServiceImpl implements AccountService {
         }
 
         AccountEntity account = accountRepository.getById(accountRequest.getId());
-        account.setMoney(accountRequest.getMoney());
+        account.setMoney(accountRequest.getMoney() + account.getMoney());
         accountRepository.save(account);
         return mapper.map(account, AccountDto.class);
     }
+
     @Override
     public List<LotDto> getUserLots(String accountId) throws AccountNotExistsException {
         Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
@@ -69,8 +70,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<ProductDto> getUserProducts(String accountId) throws AccountNotExistsException
-    {
+    public List<ProductDto> getUserProducts(String accountId) throws AccountNotExistsException {
         Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
         AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
 
@@ -85,8 +85,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public AccountDto getUser(String accountId) throws AccountNotExistsException
-    {
+    public AccountDto getUser(String accountId) throws AccountNotExistsException {
         Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
 
         AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);

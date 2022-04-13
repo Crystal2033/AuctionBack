@@ -6,10 +6,7 @@ import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.LotRepository;
 import com.debugteam.auction_test.database.repositories.ProductRepository;
-import com.debugteam.auction_test.exceptions.AccountNotExistsException;
-import com.debugteam.auction_test.exceptions.LotExistsException;
-import com.debugteam.auction_test.exceptions.LotNotExistsException;
-import com.debugteam.auction_test.exceptions.ProductAlreadyInLotException;
+import com.debugteam.auction_test.exceptions.*;
 import com.debugteam.auction_test.models.LotDto;
 import com.debugteam.auction_test.models.LotRequest;
 import com.debugteam.auction_test.services.LotService;
@@ -44,19 +41,19 @@ public class LotServicesImpl implements LotService {
 //        }
         List<LotDto> listLots = new ArrayList<LotDto>();
 
-        for (LotEntity iter : foundEntities){
-            listLots.add(mapper.map(iter,LotDto.class));
+        for (LotEntity iter : foundEntities) {
+            listLots.add(mapper.map(iter, LotDto.class));
         }
         return listLots;
     }
 
     @Override
-    public List<LotDto> getLots(){
+    public List<LotDto> getLots() {
         List<LotEntity> lotsEntity = lotRepository.findAll();
 
         List<LotDto> listLots = new ArrayList<LotDto>();
 
-        for (LotEntity iter : lotsEntity){
+        for (LotEntity iter : lotsEntity) {
             listLots.add(mapper.map(iter, LotDto.class));
         }
         return listLots;
@@ -65,8 +62,8 @@ public class LotServicesImpl implements LotService {
     //Надо добавить productId, но у нас много продуктов, поэтому нужно передавать как-то лист продуктов.
     @Override
     public LotDto addLot(LotRequest lotRequest, String userId) throws LotExistsException, AccountNotExistsException
-    , ProductAlreadyInLotException {
-        if (lotRequest.getId() == null || lotRepository.existsById(lotRequest.getId())){
+            , ProductAlreadyInLotException {
+        if (lotRequest.getId() == null || lotRepository.existsById(lotRequest.getId())) {
             throw new LotExistsException();
         }
         LotEntity lot = mapper.map(lotRequest, LotEntity.class);
@@ -75,9 +72,9 @@ public class LotServicesImpl implements LotService {
         AccountEntity userEntity = existedUser.orElseThrow(AccountNotExistsException::new);
 
         List<ProductEntity> productsEntity = new ArrayList<>();
-        for (String productId : lotRequest.getProductsId()){
+        for (String productId : lotRequest.getProductsId()) {
             ProductEntity productEntity = productRepository.getById(productId);
-            if (productEntity.getLot() != null){
+            if (productEntity.getLot() != null) {
                 throw new ProductAlreadyInLotException();
             }
 
@@ -97,9 +94,13 @@ public class LotServicesImpl implements LotService {
     }
 
     @Override
-    public void deleteLot(String lotId) throws LotNotExistsException {
+    public void deleteLot(String lotId, String userId) throws LotNotExistsException, UserAccessViolationException {
         Optional<LotEntity> existedLot = lotRepository.findOptionalById(lotId);
         LotEntity lot = existedLot.orElseThrow(LotNotExistsException::new);
+        AccountEntity accountEntity = accountRepository.getById(userId);
+        if (lot.getUser() != accountEntity) {
+            throw new UserAccessViolationException();
+        }
         lotRepository.delete(lot);
     }
 }

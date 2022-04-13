@@ -1,6 +1,5 @@
 package com.debugteam.auction_test.controllers;
 
-import com.debugteam.auction_test.exceptions.AccountExistsException;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
 import com.debugteam.auction_test.models.*;
 import com.debugteam.auction_test.security.models.OurAuthToken;
@@ -20,36 +19,32 @@ public class AccountController {
     }
 
     @GetMapping("")
-    public AccountDto getUser(OurAuthToken authToken) throws AccountNotExistsException { // добавить аргументы
-        //Был обычный string, мы поставили @PathVariable("id") и запрос был  @GetMapping("")
-        //return new AccountDto();
+    public AccountDto getUser(OurAuthToken authToken) throws AccountNotExistsException {
         return accountService.getUser(authToken.getPrincipal().getId());
     }
 
     @PatchMapping("")
-    public void changeUser(@RequestBody AccountRequest accountRequest) throws AccountNotExistsException
-    {
+    public void changeUser(@RequestBody AccountRequest accountRequest) throws AccountNotExistsException {
         accountService.changeUser(accountRequest);
     }
 
     @DeleteMapping("")
-    public void deleteUser(OurAuthToken ourAuthToken) throws AccountNotExistsException
-    {
+    public void deleteUser(OurAuthToken ourAuthToken) throws AccountNotExistsException {
         accountService.deleteUser(ourAuthToken.getPrincipal().getId());
     }
 
     @GetMapping("/lots")
-    public List<LotDto> getUserLots(OurAuthToken authToken) throws AccountNotExistsException { // добавить аргументы #TODO: Спросить, что передавать в аргументы.
+    public List<LotDto> getUserLots(OurAuthToken authToken) throws AccountNotExistsException {
         return accountService.getUserLots(authToken.getPrincipal().getId());
     }
 
     @GetMapping("/bets")
-    public List<BetDto> getUserBets(OurAuthToken authToken) throws AccountNotExistsException { // добавить аргументы #TODO: Спросить, что передавать в аргументы.
+    public List<BetDto> getUserBets(OurAuthToken authToken) throws AccountNotExistsException {
         return accountService.getUserBets(authToken.getPrincipal().getId());
     }
 
     @GetMapping("/products")
-    public List<ProductDto> getUserProducts(OurAuthToken ourAuthToken) throws AccountNotExistsException { // добавить аргументы #TODO: Спросить, что передавать в аргументы.
+    public List<ProductDto> getUserProducts(OurAuthToken ourAuthToken) throws AccountNotExistsException {
         return accountService.getUserProducts(ourAuthToken.getPrincipal().getId());
     }
 
