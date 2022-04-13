@@ -7,8 +7,10 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BetDto {
 
-    private String betId;
-    private String userNickname;
-
+    private String id;
+    //private String userNickname; Для этого есть id.
     private Integer betSize;
+
+    private LotDto lotDto;
+    private AccountDto accountDto;
 }

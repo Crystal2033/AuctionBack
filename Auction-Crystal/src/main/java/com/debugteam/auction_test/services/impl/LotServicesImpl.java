@@ -2,7 +2,6 @@ package com.debugteam.auction_test.services.impl;
 
 import com.debugteam.auction_test.database.entities.AccountEntity;
 import com.debugteam.auction_test.database.entities.LotEntity;
-import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.LotRepository;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
@@ -46,11 +45,22 @@ public class LotServicesImpl implements LotService {
         return listLots;
     }
 
+    @Override
+    public List<LotDto> getLots(){
+        List<LotEntity> lotsEntity = lotRepository.findAll();
+
+        List<LotDto> listLots = new ArrayList<LotDto>();
+
+        for (LotEntity iter : lotsEntity){
+            listLots.add(mapper.map(iter, LotDto.class));
+        }
+        return listLots;
+    }
 
     //Надо добавить productId, но у нас много продуктов, поэтому нужно передавать как-то лист продуктов.
     @Override
     public LotDto addLot(LotRequest lotRequest, String userId) throws LotExistsException, AccountNotExistsException {
-        if (lotRequest.getLotId() == null || lotRepository.existsById(lotRequest.getLotId())){
+        if (lotRequest.getId() == null || lotRepository.existsById(lotRequest.getId())){
             throw new LotExistsException();
         }
         LotEntity lot = mapper.map(lotRequest, LotEntity.class);

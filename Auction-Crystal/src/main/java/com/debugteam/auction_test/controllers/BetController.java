@@ -1,68 +1,43 @@
 package com.debugteam.auction_test.controllers;
 
+import com.debugteam.auction_test.exceptions.BetExistException;
 import com.debugteam.auction_test.exceptions.BetNotExistException;
 import com.debugteam.auction_test.models.BetRequest;
 import com.debugteam.auction_test.models.BetDto;
+import com.debugteam.auction_test.security.models.OurAuthToken;
+import com.debugteam.auction_test.services.BetService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/bets")
 public class BetController {
-    private HashMap<Integer, BetRequest> savedBets = new HashMap<>();
+
+    private BetService betService;
 
     @GetMapping("/{id}")
-    public BetDto getBet(@PathVariable("id") Integer betId) throws BetNotExistException {
-//        if (!savedBets.containsKey(betId)) {
-//            throw new BetNotExistException();
-//        }
-//        BetDto foundBet = convertToResponse(savedBets.get(betId));
-//        return foundBet;
-        return new BetDto();
+    public BetDto getBet(@PathVariable("id") String betId) throws BetNotExistException {
+        return betService.getBet(betId);
     }
 
     @GetMapping("")
-    public ArrayList<BetDto> getBets() {
-//        ArrayList<BetDto> result = new ArrayList<>();
-//        for (Map.Entry<Integer, BetRequest> entry : savedBets.entrySet()) {
-//            BetDto betResp = convertToResponse(entry.getValue());
-//            result.add(betResp);
-//        }
-//        return result;
-        return new ArrayList<>();
+    public List<BetDto> getBets() {
+        return betService.getBets();
     }
 
     @PostMapping("")
-    public Integer addBet(BetRequest newBet) {
-//        Integer id = savedBets.size();
-//        savedBets.put(id, newBet);
-//        return id;
-        return 1234;
+    public BetDto addBet(@RequestBody BetRequest newBet, OurAuthToken authToken) throws BetExistException {
+        return betService.addBet(newBet, authToken.getPrincipal().getId());
     }
 
     @DeleteMapping("/{id}")
-    public Integer deleteBet(@PathVariable("id") Integer betId) throws BetNotExistException //but its strange. How did yoi get id of not existing bet.
+    public void deleteBet(@PathVariable("id") String betId) throws BetNotExistException //but its strange. How did yoi get id of not existing bet.
     {
-//        if (!savedBets.containsKey(betId)) {
-//            throw new BetNotExistException();
-//        }
-//        savedBets.remove(betId);
-//        return betId;
-        return 123;
+        betService.deleteBet(betId);
     }
-
-    ///////////////////////////////////////////////////////////////////////////
-    //                      private
-    ///////////////////////////////////////////////////////////////////////////
-//    private BetDto convertToResponse(BetRequest betReq) {
-//        BetDto betResp = new BetDto();
-//        betResp.setBetSize(betReq.getBetSize());
-//        betResp.setLotId(betReq.getLotId());
-//        betResp.setUserNickname(betReq.getUserNickname());
-//        return betResp;
-//    }
-
 }
+

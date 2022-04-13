@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class LotDto {
 
-    private String lotId;
+    private String id;
 
     private String name;
     private int startPrice;

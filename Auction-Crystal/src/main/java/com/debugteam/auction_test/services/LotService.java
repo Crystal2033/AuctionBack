@@ -5,6 +5,7 @@ import com.debugteam.auction_test.exceptions.LotExistsException;
 import com.debugteam.auction_test.exceptions.LotNotExistsException;
 import com.debugteam.auction_test.models.LotDto;
 import com.debugteam.auction_test.models.LotRequest;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface LotService {
     LotDto addLot(LotRequest lotRequest, String userId) throws LotExistsException, AccountNotExistsException;
 
     void deleteLot(String lotId) throws LotNotExistsException;
+
+    List<LotDto> getLots();
 }

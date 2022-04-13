@@ -30,6 +30,14 @@ public class LotController {
         return lotServices.getSearchLots(name);
     }
 
+    @GetMapping("")
+    public List<LotDto> geTLots() {
+
+        return lotServices.getLots();
+    }
+
+    //TODO: GET LOTS
+
 
     @PostMapping
     public LotDto addLot(@RequestBody LotRequest lotRequest, OurAuthToken authToken) throws LotExistsException,

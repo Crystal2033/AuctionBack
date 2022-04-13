@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 public class LotRequest {
-    private String lotId;
+    private String id;
     private List<String> productsId;
     private String name;
     private int startPrice;

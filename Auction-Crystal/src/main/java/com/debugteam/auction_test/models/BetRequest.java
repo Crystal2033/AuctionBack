@@ -7,8 +7,8 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BetRequest {
 
-    private String betId;
-    private String userNickname;
+    private String id;
+    private String lotId;
 
     private Integer betSize;
 }
