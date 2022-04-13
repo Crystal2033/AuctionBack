@@ -30,13 +30,11 @@ public class LotController {
         return lotServices.getSearchLots(name);
     }
 
-    @GetMapping("")
+    @GetMapping("/all")
     public List<LotDto> geTLots() {
 
         return lotServices.getLots();
     }
-
-    //TODO: GET LOTS
 
 
     @PostMapping

@@ -2,14 +2,12 @@ package com.debugteam.auction_test.services.impl;
 
 import com.debugteam.auction_test.database.entities.AccountEntity;
 import com.debugteam.auction_test.database.entities.BetEntity;
-import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.BetRepository;
 import com.debugteam.auction_test.exceptions.BetExistException;
 import com.debugteam.auction_test.exceptions.BetNotExistException;
 import com.debugteam.auction_test.models.BetDto;
 import com.debugteam.auction_test.models.BetRequest;
-import com.debugteam.auction_test.models.ProductDto;
 import com.debugteam.auction_test.services.BetService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
