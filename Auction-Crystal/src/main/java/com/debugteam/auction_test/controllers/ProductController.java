@@ -37,15 +37,9 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") String productId, OurAuthToken authToken) throws ProductNotExistException,
-            UserAccessViolationException//but its strange. How did you get id of not existing product.
+            UserAccessViolationException
     {
         productService.deleteLot(productId, authToken.getPrincipal().getId());
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    //                      private
-    ///////////////////////////////////////////////////////////////////////////
-    private ProductDto convertToResponse(ProductRequest productReq) {
-        return new ProductDto();
-    }
 }

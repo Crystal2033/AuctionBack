@@ -21,26 +21,26 @@ public class LotController {
     }
 
 
-    @GetMapping("")
+    @GetMapping("/search")
     public List<LotDto> getSearchLots(@RequestParam("name") String name) throws LotNotExistsException {
 
         return lotServices.getSearchLots(name);
     }
 
     @GetMapping("/all")
-    public List<LotDto> geTLots() {
+    public List<LotDto> getLots() {
 
         return lotServices.getLots();
     }
 
 
-    @PostMapping
+    @PostMapping("/add")
     public LotDto addLot(@RequestBody LotRequest lotRequest, OurAuthToken authToken) throws LotExistsException,
             AccountNotExistsException, ProductAlreadyInLotException {
         return lotServices.addLot(lotRequest, authToken.getPrincipal().getId());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteLot(@PathVariable String id, OurAuthToken authToken) throws LotNotExistsException,
             UserAccessViolationException {
         lotServices.deleteLot(id, authToken.getPrincipal().getId());

@@ -1,6 +1,7 @@
 package com.debugteam.auction_test.controllers;
 
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
+import com.debugteam.auction_test.exceptions.UserAccessViolationException;
 import com.debugteam.auction_test.models.*;
 import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.AccountService;
@@ -24,8 +25,9 @@ public class AccountController {
     }
 
     @PatchMapping("")
-    public void changeUser(@RequestBody AccountRequest accountRequest) throws AccountNotExistsException {
-        accountService.changeUser(accountRequest);
+    public void changeUser(@RequestBody AccountRequest accountRequest, OurAuthToken authToken) throws AccountNotExistsException,
+            UserAccessViolationException {
+        accountService.changeUser(accountRequest, authToken.getPrincipal().getId());
     }
 
     @DeleteMapping("")

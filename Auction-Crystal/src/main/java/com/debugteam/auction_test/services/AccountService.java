@@ -1,6 +1,7 @@
 package com.debugteam.auction_test.services;
 
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
+import com.debugteam.auction_test.exceptions.UserAccessViolationException;
 import com.debugteam.auction_test.models.*;
 
 import java.util.List;
@@ -17,7 +18,8 @@ public interface AccountService {
 
     AccountDto getUser(String studentId) throws AccountNotExistsException; // Не нужно передавать String id?
 
-    void changeUser(AccountRequest studentRequest) throws AccountNotExistsException; //boolean
+    void changeUser(AccountRequest studentRequest, String owner) throws AccountNotExistsException,
+            UserAccessViolationException; //boolean
 
     void deleteUser(String studentId) throws AccountNotExistsException; //boolean
 

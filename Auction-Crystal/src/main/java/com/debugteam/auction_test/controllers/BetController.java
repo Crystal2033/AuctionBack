@@ -39,7 +39,6 @@ public class BetController {
     public void deleteBet(@PathVariable("id") String betId, OurAuthToken authToken) throws BetNotExistException,
             UserAccessViolationException//but its strange. How did yoi get id of not existing bet.
     {
-
         betService.deleteBet(betId, authToken.getPrincipal().getId());
     }
 }

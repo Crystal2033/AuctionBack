@@ -7,6 +7,7 @@ import com.debugteam.auction_test.database.entities.ProductEntity;
 import com.debugteam.auction_test.database.repositories.AccountRepository;
 import com.debugteam.auction_test.database.repositories.LotRepository;
 import com.debugteam.auction_test.exceptions.AccountNotExistsException;
+import com.debugteam.auction_test.exceptions.UserAccessViolationException;
 import com.debugteam.auction_test.models.*;
 import com.debugteam.auction_test.services.AccountService;
 import org.modelmapper.ModelMapper;
@@ -93,13 +94,21 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void changeUser(AccountRequest accountRequest) throws AccountNotExistsException //boolean
+    public void changeUser(AccountRequest accountRequest, String ownerId) throws AccountNotExistsException,
+            UserAccessViolationException//boolean
     {
         if (accountRequest.getId() == null || !accountRepository.existsById(accountRequest.getId())) {
             throw new AccountNotExistsException();
         }
 
+        AccountEntity ownerEntity = accountRepository.getById(ownerId);
+
         AccountEntity user = accountRepository.getById(accountRequest.getId());
+
+        if (user != ownerEntity) {
+            throw new UserAccessViolationException();
+        }
+
         user.setId(accountRequest.getId());
         user.setNickname(accountRequest.getNickname());
         user.setMoney(accountRequest.getMoney());
