@@ -94,6 +94,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public AccountDto getUserById(String accountId) throws AccountNotExistsException {
+        Optional<AccountEntity> existedUser = accountRepository.findOptionalById(accountId);
+        AccountEntity user = existedUser.orElseThrow(AccountNotExistsException::new);
+        return mapper.map(user, AccountDto.class);
+    }
+
+    @Override
     public void changeUser(AccountRequest accountRequest, String ownerId) throws AccountNotExistsException,
             UserAccessViolationException//boolean
     {

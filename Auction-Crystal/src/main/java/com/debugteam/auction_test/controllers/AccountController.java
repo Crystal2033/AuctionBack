@@ -7,6 +7,7 @@ import com.debugteam.auction_test.security.models.OurAuthToken;
 import com.debugteam.auction_test.services.AccountService;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -23,6 +24,11 @@ public class AccountController {
     public AccountDto getUser(OurAuthToken authToken) throws AccountNotExistsException {
         return accountService.getUser(authToken.getPrincipal().getId());
     }
+
+//    @GetMapping("/get/{id}") // TEST METHOD, NOT NEED
+//    public AccountDto getUser(@PathVariable("id") String id) throws AccountNotExistsException {
+//        return accountService.getUserById(id);
+//    }
 
     @PatchMapping("")
     public void changeUser(@RequestBody AccountRequest accountRequest, OurAuthToken authToken) throws AccountNotExistsException,

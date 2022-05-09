@@ -45,8 +45,6 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
 
-
-    //TODO: сделать login и вернуть токен, сохранить его в account и проверят по нему.
     @Override
     public AccountDto login(RegistrationParamsRequest registrationParamsRequest) throws AccountNotExistsException,
             UserAccessViolationException {

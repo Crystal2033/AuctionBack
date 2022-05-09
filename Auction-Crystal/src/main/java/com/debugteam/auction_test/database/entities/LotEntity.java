@@ -28,7 +28,7 @@ public class LotEntity {
     int startPrice;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "users_id")
     private AccountEntity user;
 
     @CreationTimestamp

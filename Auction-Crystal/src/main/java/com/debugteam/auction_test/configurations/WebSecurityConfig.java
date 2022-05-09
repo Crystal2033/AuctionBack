@@ -9,6 +9,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
 
@@ -37,9 +38,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
         //TODO: Поставить сюда privatezones
+
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedHeaders(List.of("Cache-Control", "Content-Type", "x-access-token"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
+
+
         httpSecurity
-                .cors()
-                .disable()
                 .csrf()
                 .disable()
                 .sessionManagement()
@@ -53,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(
                         mainAuthFilter.setRequireAuthMatcher(this.privateZones),
                         UsernamePasswordAuthenticationFilter.class
-                );
+                )
+                .cors().configurationSource(request -> corsConfiguration);
     }
 }

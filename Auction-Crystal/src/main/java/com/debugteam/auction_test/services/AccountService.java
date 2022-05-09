@@ -18,6 +18,8 @@ public interface AccountService {
 
     AccountDto getUser(String studentId) throws AccountNotExistsException; // Не нужно передавать String id?
 
+    AccountDto getUserById(String studentId) throws AccountNotExistsException; // Не нужно передавать String id?
+
     void changeUser(AccountRequest studentRequest, String owner) throws AccountNotExistsException,
             UserAccessViolationException; //boolean
 
