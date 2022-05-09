@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     {
         this.mainAuthFilter = mainAuthFilter;
         this.privateZones = privateZones;
-        //this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/account/**")));
+        this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/account/**")));
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/bets/**")));
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/products/**")));
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/lots/add/**")));
@@ -51,7 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeHttpRequests()
                 .antMatchers("/api/registration/**").permitAll()
-                .antMatchers("/api/account/get/**").permitAll()
                 .antMatchers("/api/lots/all/**").permitAll()
                 .antMatchers("/api/lots/search/**").permitAll()
                 .anyRequest().authenticated()

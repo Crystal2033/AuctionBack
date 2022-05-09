@@ -25,10 +25,10 @@ public class AccountController {
         return accountService.getUser(authToken.getPrincipal().getId());
     }
 
-    @GetMapping("/get/{id}")
-    public AccountDto getUser(@PathVariable("id") String id) throws AccountNotExistsException {
-        return accountService.getUserById(id);
-    }
+//    @GetMapping("/get/{id}") // TEST METHOD, NOT NEED
+//    public AccountDto getUser(@PathVariable("id") String id) throws AccountNotExistsException {
+//        return accountService.getUserById(id);
+//    }
 
     @PatchMapping("")
     public void changeUser(@RequestBody AccountRequest accountRequest, OurAuthToken authToken) throws AccountNotExistsException,
