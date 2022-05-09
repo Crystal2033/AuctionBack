@@ -29,6 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/lots/add/**")));
         this.privateZones.add(new AndRequestMatcher(new AntPathRequestMatcher("/api/lots/delete/**")));
 
+        
 
     }
 
