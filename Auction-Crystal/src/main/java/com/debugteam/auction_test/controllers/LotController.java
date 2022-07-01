@@ -24,7 +24,6 @@ public class LotController {
     @GetMapping("/search")
     public List<LotDto> getSearchLots(@RequestParam("name") String name) throws LotNotExistsException {
         //TODO: Через pathVariable
-
         return lotServices.getSearchLots(name);
     }
 
@@ -40,6 +39,12 @@ public class LotController {
             AccountNotExistsException, ProductAlreadyInLotException {
         return lotServices.addLot(lotRequest, authToken.getPrincipal().getId());
     }
+
+//    @GetMapping("/{id}")
+//    public LotDto getLotById(@PathVariable String id, OurAuthToken authToken) throws LotNotExistsException,
+//            AccountNotExistsException, ProductAlreadyInLotException {
+//        return lotServices.getLotById(id, authToken.getPrincipal().getId());
+//    }
 
     @DeleteMapping("/delete/{id}")
     public void deleteLot(@PathVariable String id, OurAuthToken authToken) throws LotNotExistsException,

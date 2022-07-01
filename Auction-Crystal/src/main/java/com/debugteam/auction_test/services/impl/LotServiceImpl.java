@@ -63,9 +63,7 @@ public class LotServiceImpl implements LotService {
     @Override
     public LotDto addLot(LotRequest lotRequest, String userId) throws LotExistsException, AccountNotExistsException
             , ProductAlreadyInLotException {
-        if (lotRequest.getId() == null || lotRepository.existsById(lotRequest.getId())) {
-            throw new LotExistsException();
-        }
+
         LotEntity lot = mapper.map(lotRequest, LotEntity.class);
 
         Optional<AccountEntity> existedUser = accountRepository.findOptionalById(userId);
@@ -74,6 +72,7 @@ public class LotServiceImpl implements LotService {
         List<ProductEntity> productsEntity = new ArrayList<>();
         for (String productId : lotRequest.getProductsId()) {
             ProductEntity productEntity = productRepository.getById(productId);
+            productEntity.setUser(null);
             if (productEntity.getLot() != null) {
                 throw new ProductAlreadyInLotException();
             }
